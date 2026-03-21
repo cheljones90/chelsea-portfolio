@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Chelsea</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0D0D0F;--bg-2:#131316;
+  --border:rgba(255,255,255,0.07);--border-2:rgba(255,255,255,0.13);
+  --text:#F0EDE8;--text-2:#9A9690;--text-3:#4A4845;
+  --accent:#C8A97E;--accent-2:#8B6E4E;
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden;}
+
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:100;opacity:0.5;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:28px 64px;}
+.nav-logo{font-family:var(--serif);font-size:20px;color:var(--text);text-decoration:none;}
+.nav-logo span{color:var(--accent);}
+
+/* MAIN */
+.page{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 32px;position:relative;}
+
+/* Ambient glow */
+.page::before{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(200,169,126,0.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+
+/* Target rings SVG */
+.target-wrap{position:relative;width:160px;height:160px;margin-bottom:40px;opacity:0;animation:fadeUp 0.9s 0.1s forwards;}
+
+.target-svg{width:160px;height:160px;}
+.target-ring{fill:none;stroke-width:1;}
+.ring-1{stroke:rgba(200,169,126,0.5);}
+.ring-2{stroke:rgba(200,169,126,0.2);}
+.ring-3{stroke:rgba(200,169,126,0.1);}
+.ring-4{stroke:rgba(200,169,126,0.06);}
+
+/* Arrow SVG — stuck in wrong spot */
+.arrow{position:absolute;top:22%;left:68%;transform:rotate(135deg);opacity:0;animation:arrowLand 0.5s 0.9s cubic-bezier(0.34,1.56,0.64,1) forwards;}
+
+/* 404 number */
+.four-o-four{font-family:var(--serif);font-size:clamp(80px,14vw,140px);line-height:0.9;color:var(--text);letter-spacing:-0.04em;margin-bottom:20px;opacity:0;animation:fadeUp 0.9s 0.3s forwards;}
+.four-o-four em{font-style:italic;color:var(--accent);}
+
+/* Message */
+.message{font-size:clamp(14px,2vw,17px);font-weight:300;color:var(--text-2);line-height:1.7;max-width:400px;margin-bottom:40px;opacity:0;animation:fadeUp 0.9s 0.5s forwards;}
+.message strong{font-weight:500;color:var(--text);}
+
+/* CTA row */
+.cta-row{display:flex;align-items:center;gap:12px;opacity:0;animation:fadeUp 0.9s 0.7s forwards;}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:var(--accent);color:var(--bg);font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:background 0.2s,gap 0.2s;}
+.btn-primary:hover{background:#D4B98C;gap:16px;}
+.btn-ghost{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:transparent;color:var(--text-2);font-family:var(--sans);font-size:12px;font-weight:400;letter-spacing:0.09em;text-transform:uppercase;text-decoration:none;border:1px solid var(--border-2);border-radius:2px;transition:border-color 0.2s,color 0.2s,gap 0.2s;}
+.btn-ghost:hover{border-color:var(--accent);color:var(--text);gap:16px;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes arrowLand{from{opacity:0;transform:rotate(135deg) translateY(-12px);}to{opacity:1;transform:rotate(135deg) translateY(0);}}
+
+@media(max-width:540px){
+  nav{padding:22px 28px;}
+  .cta-row{flex-direction:column;width:100%;max-width:280px;}
+  .btn-primary,.btn-ghost{justify-content:center;width:100%;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="portfolio_layout.html" class="nav-logo">Chelsea<span>.</span></a>
+</nav>
+
+<div class="page">
+
+  <div class="target-wrap">
+    <svg class="target-svg" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+      <!-- Target rings -->
+      <circle class="target-ring ring-4" cx="80" cy="80" r="75"/>
+      <circle class="target-ring ring-3" cx="80" cy="80" r="56"/>
+      <circle class="target-ring ring-2" cx="80" cy="80" r="37"/>
+      <circle class="target-ring ring-1" cx="80" cy="80" r="18"/>
+      <!-- Bullseye dot -->
+      <circle cx="80" cy="80" r="4" fill="rgba(200,169,126,0.3)"/>
+    </svg>
+
+    <!-- Arrow off to the side -->
+    <svg class="arrow" width="36" height="8" viewBox="0 0 36 8" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="4" x2="28" y2="4" stroke="#C8A97E" stroke-width="1.5" stroke-linecap="round"/>
+      <polyline points="22,1 28,4 22,7" fill="none" stroke="#C8A97E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Fletching -->
+      <line x1="0" y1="4" x2="6" y2="1" stroke="#C8A97E" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+      <line x1="0" y1="4" x2="6" y2="7" stroke="#C8A97E" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+    </svg>
+  </div>
+
+  <h1 class="four-o-four">4<em>0</em>4</h1>
+
+  <p class="message">
+    Even the best archers miss sometimes.<br>
+    <strong>This page doesn't exist</strong> — but plenty of good ones do.
+  </p>
+
+  <div class="cta-row">
+    <a href="portfolio_layout.html" class="btn-primary">Back to home →</a>
+    <a href="portfolio_layout.html#work" class="btn-ghost">View my work</a>
+  </div>
+
+</div>
+
+</body>
+</html>

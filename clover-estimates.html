@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clover Estimates — Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0D0D0F;--bg-2:#131316;--bg-3:#1A1A1F;
+  --border:rgba(255,255,255,0.07);--border-2:rgba(255,255,255,0.13);
+  --text:#F0EDE8;--text-2:#9A9690;--text-3:#4A4845;
+  --accent:#C8A97E;--accent-2:#8B6E4E;
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --max:1080px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.5;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:28px 64px;border-bottom:1px solid transparent;transition:border-color 0.4s,background 0.4s;}
+nav.scrolled{background:rgba(13,13,15,0.88);backdrop-filter:blur(20px);border-color:var(--border);}
+.nav-logo{font-family:var(--serif);font-size:20px;color:var(--text);text-decoration:none;}
+.nav-logo span{color:var(--accent);}
+.nav-back{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:400;letter-spacing:0.09em;text-transform:uppercase;color:var(--text-2);text-decoration:none;transition:color 0.2s;}
+.nav-back:hover{color:var(--text);}
+.nav-back svg{transition:transform 0.2s;}
+.nav-back:hover svg{transform:translateX(-3px);}
+
+/* PROGRESS */
+.progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:200;width:0%;transition:width 0.1s linear;}
+
+/* HERO */
+.case-hero{min-height:70vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 64px 80px;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
+.case-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 90% 10%,rgba(200,169,126,0.07) 0%,transparent 60%),radial-gradient(ellipse 40% 50% at 0% 90%,rgba(34,197,94,0.04) 0%,transparent 55%);}
+.case-hero-label{font-size:11px;font-weight:500;letter-spacing:0.17em;text-transform:uppercase;color:var(--accent);margin-bottom:24px;opacity:0;animation:fadeUp 0.9s 0.2s forwards;}
+.case-hero-title{font-family:var(--serif);font-size:clamp(48px,7vw,88px);line-height:1.0;letter-spacing:-0.025em;color:var(--text);max-width:820px;opacity:0;animation:fadeUp 0.9s 0.35s forwards;}
+.case-hero-title em{font-style:italic;color:var(--accent);}
+.case-hero-sub{margin-top:28px;font-size:16px;font-weight:300;color:var(--text-2);max-width:560px;line-height:1.75;opacity:0;animation:fadeUp 0.9s 0.5s forwards;}
+.case-hero-meta{margin-top:56px;display:flex;align-items:center;gap:0;opacity:0;animation:fadeUp 0.9s 0.65s forwards;}
+.case-meta-stat{display:flex;flex-direction:column;gap:5px;padding-right:48px;}
+.case-meta-divider{width:1px;height:44px;background:var(--border-2);margin-right:48px;}
+.case-meta-num{font-family:var(--serif);font-size:28px;color:var(--text);line-height:1;}
+.case-meta-label{font-size:10px;letter-spacing:0.07em;color:var(--text-3);text-transform:uppercase;}
+
+/* TL;DR STRIP */
+.tldr{background:var(--bg-2);border-bottom:1px solid var(--border);padding:48px 64px;}
+.tldr-inner{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:160px 1fr;gap:64px;align-items:start;}
+.tldr-label{font-size:11px;font-weight:500;letter-spacing:0.17em;text-transform:uppercase;color:var(--accent);padding-top:4px;}
+.tldr-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.tldr-item{padding:20px 28px;border:1px solid var(--border);margin:-1px 0 0 -1px;display:flex;gap:14px;align-items:flex-start;}
+.tldr-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px;}
+.tldr-text{font-size:13px;font-weight:300;color:var(--text-2);line-height:1.6;}
+.tldr-text strong{font-weight:500;color:var(--text);}
+
+/* TOC */
+.toc-wrap{position:sticky;top:77px;z-index:50;background:rgba(13,13,15,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 64px;}
+.toc{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
+.toc::-webkit-scrollbar{display:none;}
+.toc-item{flex-shrink:0;font-size:11px;font-weight:400;letter-spacing:0.09em;text-transform:uppercase;color:var(--text-3);text-decoration:none;padding:18px 24px 16px;border-bottom:2px solid transparent;transition:color 0.2s,border-color 0.2s;white-space:nowrap;}
+.toc-item:hover{color:var(--text-2);}
+.toc-item.active{color:var(--accent);border-color:var(--accent);}
+
+/* BODY */
+.case-body{max-width:var(--max);margin:0 auto;padding:0 64px;}
+
+/* Section shared */
+.cs-section{padding:96px 0;border-bottom:1px solid var(--border);}
+.cs-section:last-child{border-bottom:none;}
+
+/* Section header — number + title */
+.cs-section-header{display:grid;grid-template-columns:200px 1fr;gap:64px;margin-bottom:56px;align-items:start;}
+.cs-section-num{font-family:var(--serif);font-size:72px;line-height:0.85;color:rgba(255,255,255,0.04);user-select:none;padding-top:8px;}
+.cs-section-eyebrow{font-size:11px;font-weight:500;letter-spacing:0.17em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+.cs-section-title{font-family:var(--serif);font-size:clamp(26px,2.8vw,38px);line-height:1.15;color:var(--text);}
+
+/* Content rows: label + content */
+.cs-content{display:grid;grid-template-columns:200px 1fr;gap:64px;}
+.cs-label{font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);padding-top:6px;line-height:1.4;}
+.cs-text{font-size:15px;font-weight:300;color:var(--text-2);line-height:1.8;}
+.cs-text p+p{margin-top:20px;}
+.cs-text strong{font-weight:500;color:var(--text);}
+.cs-row{margin-bottom:48px;}
+.cs-row:last-child{margin-bottom:0;}
+
+/* — LEAN sections: research + process use this — */
+/* Stat strip for lean sections */
+.cs-stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:8px;}
+.cs-stat-block{padding:28px 24px;background:var(--bg-2);border:1px solid var(--border);display:flex;flex-direction:column;gap:6px;}
+.cs-stat-block-num{font-family:var(--serif);font-size:36px;color:var(--text);line-height:1;}
+.cs-stat-block-num em{font-style:italic;color:var(--accent);}
+.cs-stat-block-label{font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);}
+.cs-stat-block-desc{font-size:12px;font-weight:300;color:var(--text-2);line-height:1.5;margin-top:2px;}
+
+/* Process steps — horizontal timeline */
+.cs-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:8px;border:1px solid var(--border);}
+.cs-step{padding:24px 20px;border-right:1px solid var(--border);position:relative;}
+.cs-step:last-child{border-right:none;}
+.cs-step-num{font-family:var(--serif);font-size:28px;color:rgba(255,255,255,0.06);line-height:1;margin-bottom:12px;}
+.cs-step-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:8px;line-height:1.3;}
+.cs-step-body{font-size:11px;font-weight:300;color:var(--text-3);line-height:1.5;}
+.cs-step-accent{width:20px;height:2px;background:var(--accent);margin-bottom:12px;}
+
+/* Callout */
+.cs-callout{background:var(--bg-2);border:1px solid var(--border);border-left:3px solid var(--accent);padding:28px 32px;margin-top:24px;}
+.cs-callout p{font-size:15px;font-weight:300;color:var(--text-2);line-height:1.8;}
+.cs-callout strong{color:var(--text);font-weight:500;}
+
+/* Image placeholders */
+.cs-image{width:100%;background:var(--bg-2);border:1px solid var(--border);position:relative;overflow:hidden;margin-top:8px;}
+.cs-image.tall{aspect-ratio:16/9;}
+.cs-image.short{aspect-ratio:21/9;}
+.cs-image.square{aspect-ratio:4/3;}
+.cs-image-inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;}
+.cs-image-label{font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);}
+.cs-image-sub{font-size:11px;color:var(--text-3);opacity:0.5;}
+.cs-image-icon{width:36px;height:36px;border:1px solid var(--border-2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:2px;}
+.cs-caption{font-size:12px;color:var(--text-3);margin-top:12px;font-style:italic;}
+.cs-image-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:8px;}
+.cs-image-grid .cs-image{margin-top:0;}
+.cs-image-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-top:8px;}
+.cs-image-grid-3 .cs-image{margin-top:0;}
+
+/* Competitor table */
+.cs-table{width:100%;border-collapse:collapse;margin-top:8px;}
+.cs-table th{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);text-align:left;padding:12px 16px;border-bottom:1px solid var(--border-2);background:var(--bg-2);}
+.cs-table td{font-size:13px;font-weight:300;color:var(--text-2);padding:12px 16px;border-bottom:1px solid var(--border);}
+.cs-table tr:last-child td{border-bottom:none;}
+.cs-table tr:hover td{background:var(--bg-2);}
+.td-name{font-weight:500;color:var(--text);}
+.cs-pill{display:inline-block;font-size:10px;letter-spacing:0.06em;padding:3px 8px;border-radius:20px;}
+.cs-pill.green{background:rgba(34,197,94,0.12);color:#4ADE80;}
+.cs-pill.yellow{background:rgba(234,179,8,0.12);color:#FBBF24;}
+.cs-pill.red{background:rgba(239,68,68,0.12);color:#F87171;}
+
+/* Decision compare */
+.cs-compare{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:8px;}
+.cs-compare-panel{padding:32px;background:var(--bg-2);border:1px solid var(--border);}
+.cs-compare-panel.rejected{border-color:rgba(239,68,68,0.2);}
+.cs-compare-panel.chosen{border-color:rgba(34,197,94,0.2);}
+.cs-compare-tag{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.cs-compare-tag.r{color:#F87171;}.cs-compare-tag.g{color:#4ADE80;}
+.cs-compare-dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+.cs-compare-title{font-family:var(--serif);font-size:20px;color:var(--text);margin-bottom:12px;line-height:1.2;}
+.cs-compare-body{font-size:13px;font-weight:300;color:var(--text-2);line-height:1.7;}
+
+/* Prototype */
+.cs-prototype{width:100%;aspect-ratio:16/10;border:1px solid var(--border);background:var(--bg-2);position:relative;margin-top:8px;overflow:hidden;}
+.cs-prototype iframe{width:100%;height:100%;border:none;}
+.cs-prototype-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+.cs-proto-icon{width:56px;height:56px;border:1px solid var(--border-2);border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.cs-proto-label{font-size:13px;color:var(--text-3);}
+.cs-proto-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:var(--accent);color:var(--bg);font-size:11px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:background 0.2s;}
+.cs-proto-btn:hover{background:#D4B98C;}
+
+/* Outcomes */
+.cs-outcomes{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:8px;}
+.cs-outcome{padding:32px;background:var(--bg-2);border:1px solid var(--border);display:flex;flex-direction:column;gap:8px;}
+.cs-outcome-num{font-family:var(--serif);font-size:42px;color:var(--text);line-height:1;}
+.cs-outcome-num em{font-style:italic;color:var(--accent);}
+.cs-outcome-label{font-size:11px;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-3);}
+.cs-outcome-desc{font-size:13px;font-weight:300;color:var(--text-2);line-height:1.6;margin-top:4px;}
+
+/* Next */
+.case-next{padding:96px 64px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:40px;text-decoration:none;transition:background 0.3s;}
+.case-next:hover{background:var(--bg-2);}
+.case-next-label{font-size:11px;font-weight:500;letter-spacing:0.17em;text-transform:uppercase;color:var(--text-3);margin-bottom:12px;}
+.case-next-title{font-family:var(--serif);font-size:clamp(28px,3vw,44px);color:var(--text);line-height:1.1;transition:color 0.3s;}
+.case-next:hover .case-next-title{color:var(--accent);}
+.case-next-arrow{font-size:32px;color:var(--text-3);flex-shrink:0;transition:transform 0.3s,color 0.3s;}
+.case-next:hover .case-next-arrow{transform:translateX(8px);color:var(--accent);}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:22px 28px;}
+  .case-hero{padding:0 28px 64px;min-height:55vh;}
+  .case-hero-title{font-size:clamp(40px,9vw,64px);}
+  .case-hero-meta{flex-wrap:wrap;row-gap:20px;}
+  .case-meta-divider{display:none;}
+  .case-meta-stat{padding-right:32px;}
+  .tldr{padding:40px 28px;}
+  .tldr-inner{grid-template-columns:1fr;gap:24px;}
+  .tldr-grid{grid-template-columns:1fr;}
+  .toc-wrap{padding:0 28px;}
+  .case-body{padding:0 28px;}
+  .cs-section{padding:72px 0;}
+  .cs-section-header{grid-template-columns:1fr;gap:12px;}
+  .cs-section-num{font-size:48px;margin-bottom:-4px;}
+  .cs-content{grid-template-columns:1fr;gap:16px;}
+  .cs-label{padding-top:0;}
+  .cs-stat-strip{grid-template-columns:1fr 1fr;gap:2px;}
+  .cs-steps{grid-template-columns:1fr 1fr;border:none;gap:2px;}
+  .cs-step{border:1px solid var(--border);}
+  .cs-compare{grid-template-columns:1fr;gap:2px;}
+  .cs-outcomes{grid-template-columns:1fr 1fr;gap:2px;}
+  .cs-image-grid{grid-template-columns:1fr;gap:2px;}
+  .cs-image-grid-3{grid-template-columns:1fr;gap:2px;}
+  .case-next{padding:64px 28px;flex-direction:column;align-items:flex-start;}
+}
+@media(max-width:540px){
+  .cs-stat-strip{grid-template-columns:1fr;}
+  .cs-steps{grid-template-columns:1fr;}
+  .cs-outcomes{grid-template-columns:1fr;}
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:1;transform:translateY(0);transition:opacity 0.75s ease,transform 0.75s ease;}
+.js-ready .reveal{opacity:0;transform:translateY(28px);}
+.js-ready .reveal.visible{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav id="nav">
+  <a href="/" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    All Work
+  </a>
+  <a href="/" class="nav-logo">Chelsea<span>.</span></a>
+</nav>
+
+<!-- HERO -->
+<section class="case-hero">
+  <div class="case-hero-bg"></div>
+  <p class="case-hero-label">Fintech · Payments · Zero to One</p>
+  <h1 class="case-hero-title">Clover <em>Estimates</em></h1>
+  <p class="case-hero-sub">Designing a native estimates feature end-to-end for Clover's professional services merchants — from discovery through MVP launch and beyond.</p>
+  <div class="case-hero-meta">
+    <div class="case-meta-stat"><span class="case-meta-num">2024–25</span><span class="case-meta-label">Timeline</span></div>
+    <div class="case-meta-divider"></div>
+    <div class="case-meta-stat"><span class="case-meta-num">Lead</span><span class="case-meta-label">My Role</span></div>
+    <div class="case-meta-divider"></div>
+    <div class="case-meta-stat"><span class="case-meta-num">Oct '25</span><span class="case-meta-label">MVP Shipped</span></div>
+    <div class="case-meta-divider"></div>
+    <div class="case-meta-stat"><span class="case-meta-num">Live</span><span class="case-meta-label">Status</span></div>
+  </div>
+</section>
+
+<!-- TL;DR -->
+<div class="tldr reveal">
+  <div class="tldr-inner">
+    <span class="tldr-label">TL;DR</span>
+    <div class="tldr-grid">
+      <div class="tldr-item"><div class="tldr-dot"></div><p class="tldr-text"><strong>The problem:</strong> Clover's professional services merchants were losing work to competitors because they had no native way to send estimates — forcing them to stitch together 2–3 tools for one job.</p></div>
+      <div class="tldr-item"><div class="tldr-dot"></div><p class="tldr-text"><strong>My role:</strong> Sole designer leading research, UX, UI, and production end-to-end — embedded with Clover's engineering and product teams from discovery through launch.</p></div>
+      <div class="tldr-item"><div class="tldr-dot"></div><p class="tldr-text"><strong>What shipped:</strong> A native estimates MVP (Oct 2025) covering creation, client communication, and invoice conversion — plus a post-MVP release in Feb 2026.</p></div>
+      <div class="tldr-item"><div class="tldr-dot"></div><p class="tldr-text"><strong>Key decision:</strong> Proposed a net-new "provide information" custom fields behaviour instead of repurposing an existing pattern — preserving merchant mental models and reducing friction.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc-wrap">
+  <nav class="toc">
+    <a href="#problem"   class="toc-item" data-section="problem">Problem</a>
+    <a href="#research"  class="toc-item" data-section="research">Research</a>
+    <a href="#process"   class="toc-item" data-section="process">Process</a>
+    <a href="#decisions" class="toc-item" data-section="decisions">Key Decision</a>
+    <a href="#designs"   class="toc-item" data-section="designs">Final Designs</a>
+    <a href="#prototype" class="toc-item" data-section="prototype">Prototype</a>
+    <a href="#outcomes"  class="toc-item" data-section="outcomes">Outcomes</a>
+  </nav>
+</div>
+
+<div class="case-body">
+
+  <!-- 01 PROBLEM — rich, substantial -->
+  <section class="cs-section reveal" id="problem">
+    <div class="cs-section-header">
+      <div class="cs-section-num">01</div>
+      <div>
+        <p class="cs-section-eyebrow">Problem &amp; Background</p>
+        <h2 class="cs-section-title">Merchants were stitching together two disconnected tools to do one job.</h2>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">The Gap</span>
+      <div class="cs-text">
+        <p>Professional services merchants — contractors, consultants, tradespeople — don't just take payments. They scope work, send estimates for client approval, collect deposits, then invoice for the remainder. Clover had invoicing, but no estimates.</p>
+        <p>That gap forced merchants to use QuickBooks, HoneyBook, or Square for the first half of every job, then switch back to Clover to collect payment. The friction was costing Clover merchants — competitors who owned the full workflow were winning.</p>
+        <div class="cs-callout">
+          <p><strong>The goal:</strong> Close the loop from scoping work through to receiving payment — all within Clover, without merchants ever needing to leave the platform.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">Before / After</span>
+      <div>
+        <div class="cs-image tall">
+          <div class="cs-image-inner">
+            <div class="cs-image-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+            <span class="cs-image-label">Before / After Workflow Diagram</span>
+            <span class="cs-image-sub">Replace with your workflow comparison artifact</span>
+          </div>
+        </div>
+        <p class="cs-caption">Before: merchants switched between 2–3 platforms per job. After: the full loop lives in Clover.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 RESEARCH — lean, visual-forward -->
+  <section class="cs-section reveal" id="research">
+    <div class="cs-section-header">
+      <div class="cs-section-num">02</div>
+      <div>
+        <p class="cs-section-eyebrow">Research &amp; Discovery</p>
+        <h2 class="cs-section-title">Competitive landscape mapped. Six merchants interviewed. One clear signal.</h2>
+      </div>
+    </div>
+
+    <!-- Research at a glance — stat strip -->
+    <div class="cs-content cs-row">
+      <span class="cs-label">At a Glance</span>
+      <div>
+        <div class="cs-stat-strip">
+          <div class="cs-stat-block">
+            <span class="cs-stat-block-num">5</span>
+            <span class="cs-stat-block-label">Competitors analysed</span>
+            <p class="cs-stat-block-desc">QuickBooks, Xero, FreshBooks, Square, HoneyBook</p>
+          </div>
+          <div class="cs-stat-block">
+            <span class="cs-stat-block-num">6</span>
+            <span class="cs-stat-block-label">Merchants interviewed</span>
+            <p class="cs-stat-block-desc">Across 3 personas: hourly, project-based, milestone</p>
+          </div>
+          <div class="cs-stat-block">
+            <span class="cs-stat-block-num"><em>1</em></span>
+            <span class="cs-stat-block-label">Clear MVP focus</span>
+            <p class="cs-stat-block-desc">Create, send, approve, convert to invoice</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">Competitor Map</span>
+      <div>
+        <table class="cs-table">
+          <thead><tr><th>Platform</th><th>Hourly</th><th>Project</th><th>Milestone</th><th>Key Gap</th></tr></thead>
+          <tbody>
+            <tr><td class="td-name">QuickBooks</td><td><span class="cs-pill green">Strong</span></td><td><span class="cs-pill green">Strong</span></td><td><span class="cs-pill yellow">Partial</span></td><td>Complex UI, steep learning curve</td></tr>
+            <tr><td class="td-name">Xero</td><td><span class="cs-pill yellow">Partial</span></td><td><span class="cs-pill green">Strong</span></td><td><span class="cs-pill red">Weak</span></td><td>Limited mobile experience</td></tr>
+            <tr><td class="td-name">FreshBooks</td><td><span class="cs-pill green">Strong</span></td><td><span class="cs-pill yellow">Partial</span></td><td><span class="cs-pill red">Weak</span></td><td>No native payment conversion</td></tr>
+            <tr><td class="td-name">Square</td><td><span class="cs-pill green">Strong</span></td><td><span class="cs-pill green">Strong</span></td><td><span class="cs-pill yellow">Partial</span></td><td>Weak for complex services</td></tr>
+            <tr><td class="td-name">HoneyBook</td><td><span class="cs-pill yellow">Partial</span></td><td><span class="cs-pill green">Strong</span></td><td><span class="cs-pill green">Strong</span></td><td>Not payment-first</td></tr>
+            <tr><td class="td-name" style="color:var(--accent)">Clover (opportunity)</td><td><span class="cs-pill yellow">Gap</span></td><td><span class="cs-pill yellow">Gap</span></td><td><span class="cs-pill yellow">Gap</span></td><td>Native payments advantage to own</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">Synthesis</span>
+      <div>
+        <div class="cs-image tall">
+          <div class="cs-image-inner">
+            <div class="cs-image-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div>
+            <span class="cs-image-label">Research Synthesis Document</span>
+            <span class="cs-image-sub">Replace with your synthesized research artifact</span>
+          </div>
+        </div>
+        <p class="cs-caption">Clover's existing capabilities vs. competitor offerings vs. what users need — on one page.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 PROCESS — lean, timeline-forward -->
+  <section class="cs-section reveal" id="process">
+    <div class="cs-section-header">
+      <div class="cs-section-num">03</div>
+      <div>
+        <p class="cs-section-eyebrow">Process &amp; Iterations</p>
+        <h2 class="cs-section-title">Research to shipped in two release cycles.</h2>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">How It Moved</span>
+      <div>
+        <div class="cs-steps">
+          <div class="cs-step">
+            <div class="cs-step-num">01</div>
+            <div class="cs-step-accent"></div>
+            <p class="cs-step-title">Discovery</p>
+            <p class="cs-step-body">Competitive analysis, merchant interviews, research synthesis</p>
+          </div>
+          <div class="cs-step">
+            <div class="cs-step-num">02</div>
+            <div class="cs-step-accent"></div>
+            <p class="cs-step-title">Design & Scope</p>
+            <p class="cs-step-body">PRDs, wireframes, review cycles with product and engineering</p>
+          </div>
+          <div class="cs-step">
+            <div class="cs-step-num">03</div>
+            <div class="cs-step-accent"></div>
+            <p class="cs-step-title">Test & Iterate</p>
+            <p class="cs-step-body">Prototypes tested with merchants, iterated until handoff-ready</p>
+          </div>
+          <div class="cs-step">
+            <div class="cs-step-num">04</div>
+            <div class="cs-step-accent"></div>
+            <p class="cs-step-title">MVP Launch</p>
+            <p class="cs-step-body">Core flow shipped Oct 2025. Design QA with engineering through build.</p>
+          </div>
+          <div class="cs-step">
+            <div class="cs-step-num">05</div>
+            <div class="cs-step-accent"></div>
+            <p class="cs-step-title">Post-MVP</p>
+            <p class="cs-step-body">Email/web views, discounts, templates, OTP auth — Feb 2026</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">Early Explorations</span>
+      <div>
+        <div class="cs-image-grid">
+          <div class="cs-image square"><div class="cs-image-inner"><span class="cs-image-label">Wireframe Iteration A</span><span class="cs-image-sub">Replace with early explorations</span></div></div>
+          <div class="cs-image square"><div class="cs-image-inner"><span class="cs-image-label">Wireframe Iteration B</span><span class="cs-image-sub">Replace with early explorations</span></div></div>
+        </div>
+        <p class="cs-caption">Early explorations — testing different approaches to estimate creation before settling on final structure.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 DECISIONS — rich, the centrepiece -->
+  <section class="cs-section reveal" id="decisions">
+    <div class="cs-section-header">
+      <div class="cs-section-num">04</div>
+      <div>
+        <p class="cs-section-eyebrow">Key Design Decision</p>
+        <h2 class="cs-section-title">Building something new instead of bending something that already existed.</h2>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">The Challenge</span>
+      <div class="cs-text">
+        <p>We wanted to let merchants add custom fields to estimates — a way to include project-specific information for clients, like project codes, SKUs, or work order numbers.</p>
+        <p>Clover already had a custom fields feature. But its existing behaviour was to <strong>collect</strong> information from the customer, used in hosted checkout and virtual terminal. Repurposing it would have broken a familiar pattern that merchants already relied on — and created confusion about when to use which version.</p>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">The Options</span>
+      <div>
+        <div class="cs-compare">
+          <div class="cs-compare-panel rejected">
+            <div class="cs-compare-tag r"><span class="cs-compare-dot"></span>Reconsidered</div>
+            <h3 class="cs-compare-title">Repurpose existing custom fields</h3>
+            <p class="cs-compare-body">Modify the existing feature to support both collect and provide behaviours. Faster to build — but breaks a familiar merchant pattern and introduces a mode-switching concept that adds cognitive load.</p>
+          </div>
+          <div class="cs-compare-panel chosen">
+            <div class="cs-compare-tag g"><span class="cs-compare-dot"></span>Chosen Direction</div>
+            <h3 class="cs-compare-title">Net-new "provide information" behaviour</h3>
+            <p class="cs-compare-body">A new custom fields implementation scoped to estimates, with a single purpose: providing information to the client. Cleaner mental model, no risk of breaking existing patterns, and merchants can search records by those fields.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">Visual Comparison</span>
+      <div>
+        <div class="cs-image tall">
+          <div class="cs-image-inner">
+            <div class="cs-image-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg></div>
+            <span class="cs-image-label">Collect vs. Provide — Pattern Comparison</span>
+            <span class="cs-image-sub">Replace with your side-by-side design comparison artifact</span>
+          </div>
+        </div>
+        <p class="cs-caption">Existing collect pattern (left) vs. the new provide pattern (right) — same surface, fundamentally different intent.</p>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">Why It Matters</span>
+      <div class="cs-text">
+        <div class="cs-callout">
+          <p>The distinction between collect and provide sounds subtle — but for merchants managing dozens of active jobs, it's the difference between a tool that's intuitive and one that requires constant re-learning. <strong>Advocating for a cleaner mental model, even when it means more engineering effort, leads to better products and less user confusion.</strong> The proposal was approved and is currently in merchant testing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 FINAL DESIGNS — visual-forward, minimal prose -->
+  <section class="cs-section reveal" id="designs">
+    <div class="cs-section-header">
+      <div class="cs-section-num">05</div>
+      <div>
+        <p class="cs-section-eyebrow">Final Designs</p>
+        <h2 class="cs-section-title">The shipped experience — creation through conversion.</h2>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">Estimate Creation</span>
+      <div>
+        <div class="cs-image tall"><div class="cs-image-inner"><div class="cs-image-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/></svg></div><span class="cs-image-label">Estimate Creation</span><span class="cs-image-sub">Replace with final UI screenshot</span></div></div>
+        <p class="cs-caption">Line items, service details, and client information — one coherent view.</p>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">Client Views</span>
+      <div>
+        <div class="cs-image-grid">
+          <div class="cs-image tall"><div class="cs-image-inner"><span class="cs-image-label">Email View</span><span class="cs-image-sub">Replace with final UI screenshot</span></div></div>
+          <div class="cs-image tall"><div class="cs-image-inner"><span class="cs-image-label">Web View</span><span class="cs-image-sub">Replace with final UI screenshot</span></div></div>
+        </div>
+        <p class="cs-caption">How clients experience an estimate — designed for clarity and approval ease.</p>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">Invoice Conversion</span>
+      <div>
+        <div class="cs-image short"><div class="cs-image-inner"><div class="cs-image-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div><span class="cs-image-label">Convert to Invoice</span><span class="cs-image-sub">Replace with final UI screenshot</span></div></div>
+        <p class="cs-caption">An approved estimate converts to invoice in a single action — all line items and client details carried forward.</p>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">Advanced Payment Terms <span style="font-size:10px;color:var(--accent);letter-spacing:0.08em;margin-left:8px;">WIP</span></span>
+      <div>
+        <div class="cs-image tall"><div class="cs-image-inner"><div class="cs-image-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg></div><span class="cs-image-label">Advanced Payment Terms — In Progress</span><span class="cs-image-sub">Split deposit + remaining balance invoicing</span></div></div>
+        <p class="cs-caption">Currently in design: separate deposit and remaining balance invoices within a single estimate flow.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 PROTOTYPE -->
+  <section class="cs-section reveal" id="prototype">
+    <div class="cs-section-header">
+      <div class="cs-section-num">06</div>
+      <div>
+        <p class="cs-section-eyebrow">Interactive Prototype</p>
+        <h2 class="cs-section-title">Try the core flow.</h2>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">Try It</span>
+      <div>
+        <div class="cs-prototype">
+          <div class="cs-prototype-placeholder">
+            <div class="cs-proto-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+            <p class="cs-proto-label">Figma prototype embeds here</p>
+            <a href="#" class="cs-proto-btn">Open in Figma →</a>
+          </div>
+          <!--
+          To embed: uncomment below and replace YOUR_PROTOTYPE_URL
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=YOUR_PROTOTYPE_URL" allowfullscreen></iframe>
+          -->
+        </div>
+        <p class="cs-caption">Core flow: estimate creation → send → client approval → convert to invoice.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 OUTCOMES — confident, tight -->
+  <section class="cs-section reveal" id="outcomes">
+    <div class="cs-section-header">
+      <div class="cs-section-num">07</div>
+      <div>
+        <p class="cs-section-eyebrow">Outcomes &amp; Reflections</p>
+        <h2 class="cs-section-title">A feature that didn't exist. Now it does — and it's growing.</h2>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">What Shipped</span>
+      <div>
+        <div class="cs-outcomes">
+          <div class="cs-outcome"><span class="cs-outcome-num">MVP</span><span class="cs-outcome-label">Oct 2025</span><p class="cs-outcome-desc">Creation, send, approval, and invoice conversion live.</p></div>
+          <div class="cs-outcome"><span class="cs-outcome-num"><em>+</em>5</span><span class="cs-outcome-label">Post-MVP Features</span><p class="cs-outcome-desc">Email/web views, discounts, templates, OTP auth — Feb 2026.</p></div>
+          <div class="cs-outcome"><span class="cs-outcome-num">WIP</span><span class="cs-outcome-label">Payment Terms</span><p class="cs-outcome-desc">Split deposit + balance invoicing, currently in testing.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">What I'd Do Differently</span>
+      <div class="cs-text">
+        <p>Update with your honest reflection — a constraint you'd push back on earlier, a research gap you'd close sooner, or an assumption that turned out to be wrong. This is the section that builds trust with senior hiring managers. They know every project has friction. Designers who can name it are more credible than those who can't.</p>
+      </div>
+    </div>
+
+    <div class="cs-content cs-row">
+      <span class="cs-label">What's Next</span>
+      <div class="cs-text">
+        <p>Advanced payment terms will introduce deposit and remaining balance invoicing within a single estimate workflow — mirroring how professional services billing actually works. The broader challenge is building a foundation that scales across Clover's merchant types and the wider invoicing ecosystem.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- NEXT -->
+<a href="#" class="case-next reveal">
+  <div>
+    <p class="case-next-label">Next Case Study</p>
+    <h2 class="case-next-title">Clover Project 2</h2>
+  </div>
+  <span class="case-next-arrow">→</span>
+</a>
+
+<script>
+  var nav = document.getElementById('nav');
+  var progress = document.getElementById('progress');
+  window.addEventListener('scroll', function(){
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+    progress.style.width = (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
+  });
+  if('IntersectionObserver' in window){
+    document.documentElement.classList.add('js-ready');
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry, i){
+        if(entry.isIntersecting){
+          setTimeout(function(){ entry.target.classList.add('visible'); }, i * 80);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+    var sections = document.querySelectorAll('.cs-section');
+    var tocItems = document.querySelectorAll('.toc-item');
+    var tocObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          var id = entry.target.id;
+          tocItems.forEach(function(t){ t.classList.toggle('active', t.dataset.section === id); });
+        }
+      });
+    }, { rootMargin: '-20% 0px -60% 0px' });
+    sections.forEach(function(s){ tocObs.observe(s); });
+  }
+</script>
+</body>
+</html>
