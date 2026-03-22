@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Chelsea</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0D0D0F;--bg-2:#131316;
+  --border:rgba(255,255,255,0.07);--border-2:rgba(255,255,255,0.13);
+  --text:#F0EDE8;--text-2:#9A9690;--text-3:#4A4845;
+  --accent:#C8A97E;--accent-2:#8B6E4E;
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --max:1080px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.5;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:28px 64px;border-bottom:1px solid transparent;transition:border-color 0.4s,background 0.4s;}
+nav.scrolled{background:rgba(13,13,15,0.88);backdrop-filter:blur(20px);border-color:var(--border);}
+.nav-logo{font-family:var(--serif);font-size:20px;color:var(--text);text-decoration:none;}
+.nav-logo span{color:var(--accent);}
+.nav-back{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:400;letter-spacing:0.09em;text-transform:uppercase;color:var(--text-2);text-decoration:none;transition:color 0.2s;}
+.nav-back:hover{color:var(--text);}
+.nav-back svg{transition:transform 0.2s;}
+.nav-back:hover svg{transform:translateX(-3px);}
+
+/* PAGE LAYOUT */
+.contact-page{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;max-width:var(--max);margin:0 auto;padding:0 64px;gap:80px;align-items:center;padding-top:120px;padding-bottom:80px;}
+
+/* LEFT — header content */
+.contact-left{display:flex;flex-direction:column;gap:0;}
+
+.contact-eyebrow{font-size:11px;font-weight:500;letter-spacing:0.17em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;opacity:0;animation:fadeUp 0.9s 0.2s forwards;}
+
+.contact-title{font-family:var(--serif);font-size:clamp(36px,4.5vw,60px);line-height:1.05;letter-spacing:-0.02em;color:var(--text);margin-bottom:24px;opacity:0;animation:fadeUp 0.9s 0.35s forwards;}
+.contact-title em{font-style:italic;color:var(--accent);}
+
+.contact-sub{font-size:15px;font-weight:300;color:var(--text-2);line-height:1.8;max-width:380px;margin-bottom:48px;opacity:0;animation:fadeUp 0.9s 0.5s forwards;}
+
+/* Detail pills */
+.contact-details{display:flex;flex-direction:column;gap:0;opacity:0;animation:fadeUp 0.9s 0.65s forwards;}
+.contact-detail{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--border);}
+.contact-detail:first-child{border-top:1px solid var(--border);}
+.contact-detail-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+.contact-detail-label{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);width:80px;flex-shrink:0;}
+.contact-detail-value{font-size:13px;font-weight:300;color:var(--text-2);}
+
+/* RIGHT — form */
+.contact-right{opacity:0;animation:fadeUp 0.9s 0.45s forwards;}
+
+.form-wrap{background:var(--bg-2);border:1px solid var(--border);padding:48px;position:relative;}
+
+/* Tally iframe */
+.tally-frame{width:100%;min-height:420px;border:none;display:block;color-scheme:dark;}
+
+/* Ambient glow behind form */
+.contact-page::before{content:'';position:fixed;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(200,169,126,0.05) 0%,transparent 70%);top:40%;right:10%;transform:translateY(-50%);pointer-events:none;z-index:0;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:22px 28px;}
+  .contact-page{grid-template-columns:1fr;padding:100px 28px 64px;gap:56px;align-items:start;}
+  .contact-sub{max-width:100%;}
+  .form-wrap{padding:32px 28px;}
+}
+@media(max-width:540px){
+  .contact-title{font-size:clamp(32px,9vw,48px);}
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="/" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back
+  </a>
+  <a href="/" class="nav-logo">Chelsea<span>.</span></a>
+</nav>
+
+<div class="contact-page">
+
+  <!-- LEFT -->
+  <div class="contact-left">
+    <p class="contact-eyebrow">Get in touch</p>
+    <h1 class="contact-title">Let's build something that <em>matters.</em></h1>
+    <p class="contact-sub">Whether you have a role in mind or just want to start a conversation, I'd love to hear from you. I'm currently open to Lead Product Designer opportunities in Amsterdam.</p>
+
+    <div class="contact-details">
+      <div class="contact-detail">
+        <div class="contact-detail-dot"></div>
+        <span class="contact-detail-label">Based</span>
+        <span class="contact-detail-value">Relocating to Amsterdam, NL</span>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-dot"></div>
+        <span class="contact-detail-label">Open to</span>
+        <span class="contact-detail-value">Lead Product Designer roles</span>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-dot"></div>
+        <span class="contact-detail-label">Visa</span>
+        <span class="contact-detail-value">Requires HSM sponsorship</span>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-dot"></div>
+        <span class="contact-detail-label">Response</span>
+        <span class="contact-detail-value">Within 48 hours</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT — Tally form -->
+  <div class="contact-right">
+    <div class="form-wrap">
+      <iframe
+        class="tally-frame"
+        src="https://tally.so/embed/jaxKx4?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+        loading="lazy"
+        title="Contact form"
+        onload="this.style.minHeight=''; this.style.height=this.contentWindow.document.body.scrollHeight+'px'">
+      </iframe>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function(){
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Tally dynamic resize
+  window.addEventListener('message', function(e){
+    if(e.data && e.data.type === 'tally-height'){
+      var frame = document.querySelector('.tally-frame');
+      if(frame) frame.style.height = e.data.height + 'px';
+    }
+  });
+</script>
+</body>
+</html>
