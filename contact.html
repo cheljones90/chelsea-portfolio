@@ -59,7 +59,7 @@ nav.scrolled{background:rgba(13,13,15,0.88);backdrop-filter:blur(20px);border-co
 .form-wrap{background:var(--bg-2);border:1px solid var(--border);padding:48px;position:relative;}
 
 /* Tally iframe */
-.tally-frame{width:100%;min-height:420px;border:none;display:block;color-scheme:dark;}
+.tally-frame{width:100%;height:500px;border:none;display:block;}
 
 /* Ambient glow behind form */
 .contact-page::before{content:'';position:fixed;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(200,169,126,0.05) 0%,transparent 70%);top:40%;right:10%;transform:translateY(-50%);pointer-events:none;z-index:0;}
@@ -124,11 +124,13 @@ nav.scrolled{background:rgba(13,13,15,0.88);backdrop-filter:blur(20px);border-co
   <div class="contact-right">
     <div class="form-wrap">
       <iframe
+        id="tally-frame"
         class="tally-frame"
-        src="https://tally.so/embed/jaxKx4?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+        src="https://tally.so/embed/jaxKx4?alignLeft=1&hideTitle=1&dynamicHeight=1"
         loading="lazy"
         title="Contact form"
-        onload="this.style.minHeight=''; this.style.height=this.contentWindow.document.body.scrollHeight+'px'">
+        scrolling="no"
+        frameborder="0">
       </iframe>
     </div>
   </div>
@@ -139,14 +141,6 @@ nav.scrolled{background:rgba(13,13,15,0.88);backdrop-filter:blur(20px);border-co
   var nav = document.getElementById('nav');
   window.addEventListener('scroll', function(){
     nav.classList.toggle('scrolled', window.scrollY > 40);
-  });
-
-  // Tally dynamic resize
-  window.addEventListener('message', function(e){
-    if(e.data && e.data.type === 'tally-height'){
-      var frame = document.querySelector('.tally-frame');
-      if(frame) frame.style.height = e.data.height + 'px';
-    }
   });
 </script>
 </body>
