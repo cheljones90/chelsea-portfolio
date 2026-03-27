@@ -213,56 +213,32 @@ nav.scrolled{background:rgba(13,13,15,0.88);backdrop-filter:blur(20px);border-co
 .reveal{opacity:1;transform:translateY(0);transition:opacity 0.75s ease,transform 0.75s ease;}
 .js-ready .reveal{opacity:0;transform:translateY(28px);}
 .js-ready .reveal.visible{opacity:1;transform:translateY(0);}
-/* SYNTHESIS ARTIFACT */
+/* SYNTHESIS ACCORDION */
 .synth-wrap{width:100%;margin-top:8px;}
-.synth-doc{background:var(--bg-2);border:1px solid var(--border);padding:32px;}
-.synth-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border);}
-.synth-eyebrow{font-size:10px;font-weight:500;letter-spacing:0.17em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
-.synth-title{font-family:var(--serif);font-size:clamp(20px,2.5vw,28px);line-height:1.0;color:var(--text);letter-spacing:-0.02em;}
-.synth-title em{font-style:italic;color:var(--accent);}
-.synth-meta{text-align:right;display:flex;flex-direction:column;gap:4px;}
+.synth-doc{background:var(--bg-2);border:1px solid var(--border);padding:32px 36px;}
+.synth-header{margin-bottom:8px;padding-bottom:20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:24px;}
+.synth-eyebrow{font-size:10px;font-weight:500;letter-spacing:0.17em;text-transform:uppercase;color:var(--accent);}
 .synth-meta-item{font-size:11px;color:var(--text-3);}
-.synth-meta-item span{color:var(--text-2);}
-.synth-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:2px;margin-bottom:16px;}
-.synth-col{background:var(--bg-3);padding:20px 18px;border:1px solid var(--border);display:flex;flex-direction:column;gap:14px;}
-.synth-strengths{border-top:3px solid rgba(74,222,128,0.4);}
-.synth-weaknesses{border-top:3px solid rgba(248,113,113,0.4);}
-.synth-takeaway{border-top:3px solid rgba(200,169,126,0.5);}
-.synth-opportunity{border-top:3px solid rgba(167,139,250,0.5);}
-.synth-col-head{padding-bottom:12px;border-bottom:1px solid var(--border);}
-.synth-num{font-family:var(--serif);font-size:28px;line-height:0.9;color:rgba(255,255,255,0.04);user-select:none;margin-bottom:4px;}
-.synth-col-title{font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;}
-.synth-strengths .synth-col-title{color:#4ADE80;}
-.synth-weaknesses .synth-col-title{color:#F87171;}
-.synth-takeaway .synth-col-title{color:var(--accent);}
-.synth-opportunity .synth-col-title{color:#A78BFA;}
-.synth-group{display:flex;flex-direction:column;gap:6px;}
-.synth-platform{font-size:10px;font-weight:500;color:var(--text);letter-spacing:0.04em;margin-bottom:2px;}
-.synth-point{display:flex;align-items:flex-start;gap:7px;font-size:11px;font-weight:300;color:var(--text-2);line-height:1.5;}
-.synth-dot{width:3px;height:3px;border-radius:50%;flex-shrink:0;margin-top:5px;background:var(--accent);opacity:0.5;}
-.synth-strengths .synth-dot{background:#4ADE80;}
-.synth-weaknesses .synth-dot{background:#F87171;}
-.synth-rule{height:1px;background:var(--border);margin:4px 0;}
-.synth-persona-cards{display:flex;flex-direction:column;gap:6px;}
-.synth-persona{background:var(--bg-2);border:1px solid var(--border);padding:10px 12px;}
-.synth-persona-label{font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
-.synth-persona-text{font-size:11px;font-weight:300;color:var(--text-2);line-height:1.5;}
-.synth-persona-text strong{font-weight:500;color:var(--text);}
-.synth-opps{display:flex;flex-direction:column;gap:8px;}
-.synth-opp{display:flex;align-items:flex-start;gap:8px;padding:10px 12px;background:rgba(167,139,250,0.05);border:1px solid rgba(167,139,250,0.1);font-size:11px;font-weight:300;color:var(--text-2);line-height:1.5;}
-.synth-opp strong{font-weight:500;color:var(--text);}
-.synth-opp-dot{width:3px;height:3px;border-radius:50%;background:#A78BFA;flex-shrink:0;margin-top:5px;opacity:0.6;}
-.synth-signal{background:var(--bg-2);border:1px solid var(--border);border-left:3px solid var(--accent);padding:16px 20px;display:flex;align-items:center;gap:16px;margin-top:2px;}
+
+.synth-group-wrap{border-bottom:1px solid var(--border);padding:24px 0;}
+.synth-group-wrap:last-of-type{border-bottom:none;}
+.synth-section-head{margin-bottom:16px;}
+.synth-toggle-label{font-family:var(--serif);font-size:clamp(22px,2.5vw,30px);color:var(--text);line-height:1;}
+.synth-body{display:flex;flex-direction:column;gap:8px;}
+.synth-point{display:flex;align-items:flex-start;gap:12px;font-size:14px;font-weight:300;color:var(--text-2);line-height:1.65;padding:4px 0;}
+.synth-point strong{font-weight:500;color:var(--text);}
+.synth-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0;margin-top:8px;background:var(--accent);opacity:0.5;}
+
+.synth-signal{background:var(--bg-3);border:1px solid var(--border);border-left:3px solid var(--accent);padding:18px 22px;display:flex;align-items:center;gap:18px;margin-top:24px;}
 .synth-signal-label{font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);flex-shrink:0;width:72px;}
-.synth-signal-text{font-family:var(--serif);font-size:14px;color:var(--text);line-height:1.4;font-style:italic;}
+.synth-signal-text{font-family:var(--serif);font-size:15px;color:var(--text);line-height:1.4;font-style:italic;}
 
 @media(max-width:900px){
-  .synth-header{flex-direction:column;align-items:flex-start;gap:12px;}
-  .synth-meta{text-align:left;}
-  .synth-grid{grid-template-columns:1fr 1fr;}
+  .synth-doc{padding:24px 20px;}
+  .synth-header{flex-direction:column;align-items:flex-start;gap:6px;}
+  .synth-toggle-label{font-size:clamp(20px,5vw,26px)!important;}
 }
 @media(max-width:540px){
-  .synth-grid{grid-template-columns:1fr;}
   .synth-doc{padding:20px 16px;}
 }
 
@@ -417,116 +393,48 @@ nav.scrolled{background:rgba(13,13,15,0.88);backdrop-filter:blur(20px);border-co
       <div>
         <div class="synth-wrap">
 
-          <!-- SYNTHESIS ARTIFACT — live embedded, no screenshot needed -->
+          <!-- SYNTHESIS ARTIFACT — simple accordion -->
           <div class="synth-doc">
 
             <div class="synth-header">
-              <div>
-                <p class="synth-eyebrow">Research Synthesis</p>
-                <h2 class="synth-title">Competitive Analysis <em>Overview</em></h2>
-              </div>
-              <div class="synth-meta">
-                <p class="synth-meta-item">Platforms <span>QuickBooks · Xero · FreshBooks · Square · HoneyBook</span></p>
-                <p class="synth-meta-item">Personas <span>Hourly · Project · Milestone · Recurring</span></p>
+              <p class="synth-eyebrow">Research Synthesis · Competitive Analysis</p>
+              <p class="synth-meta-item">QuickBooks · Xero · FreshBooks · Square · HoneyBook</p>
+            </div>
+
+            <div class="synth-group-wrap">
+              <div class="synth-section-head"><span class="synth-toggle-label">Strengths</span></div>
+              <div class="synth-body">
+                <div class="synth-point"><div class="synth-dot"></div><span>Accounting-first tools like QuickBooks and FreshBooks handle time tracking, recurring billing, and invoicing well for hourly businesses</span></div>
+                <div class="synth-point"><div class="synth-dot"></div><span>HoneyBook and Square offer polished templates and simple estimate-to-invoice flows for small service businesses</span></div>
+                <div class="synth-point"><div class="synth-dot"></div><span>Enterprise tools like PandaDoc and DocuSign provide powerful contract automation and deep CRM integration for complex teams</span></div>
               </div>
             </div>
 
-            <div class="synth-grid">
-
-              <!-- STRENGTHS -->
-              <div class="synth-col synth-strengths">
-                <div class="synth-col-head">
-                  <div class="synth-num">01</div>
-                  <p class="synth-col-title">Strengths</p>
-                </div>
-                <div class="synth-group">
-                  <p class="synth-platform">QuickBooks, FreshBooks, ZohoBooks</p>
-                  <div class="synth-point"><div class="synth-dot"></div><span>Strong for hourly and recurring businesses with robust time tracking and invoicing</span></div>
-                  <div class="synth-point"><div class="synth-dot"></div><span>Automated reminders, recurring billing, and accounting integrations</span></div>
-                  <div class="synth-point"><div class="synth-dot"></div><span>Easy client management with audit trails for proposals and estimates</span></div>
-                </div>
-                <div class="synth-rule"></div>
-                <div class="synth-group">
-                  <p class="synth-platform">HoneyBook, FreshBooks</p>
-                  <div class="synth-point"><div class="synth-dot"></div><span>Streamlined proposals and contracts for small creative and service businesses</span></div>
-                  <div class="synth-point"><div class="synth-dot"></div><span>Simple, polished templates with easy e-signature flows</span></div>
-                </div>
-                <div class="synth-rule"></div>
-                <div class="synth-group">
-                  <p class="synth-platform">Square</p>
-                  <div class="synth-point"><div class="synth-dot"></div><span>Integrated payments with simple estimate-to-invoice conversion, mobile friendly</span></div>
-                </div>
-                <div class="synth-rule"></div>
-                <div class="synth-group">
-                  <p class="synth-platform">Salesforce, PandaDoc, DocuSign</p>
-                  <div class="synth-point"><div class="synth-dot"></div><span>Advanced contract automation and complex approval flows</span></div>
-                  <div class="synth-point"><div class="synth-dot"></div><span>Deep CRM integrations with multi-user collaboration and robust reporting</span></div>
-                </div>
+            <div class="synth-group-wrap">
+              <div class="synth-section-head"><span class="synth-toggle-label">Weaknesses</span></div>
+              <div class="synth-body">
+                <div class="synth-point"><div class="synth-dot"></div><span>No platform handles all three personas equally. Tools built for hourly billing fall apart for milestone and project-based work.</span></div>
+                <div class="synth-point"><div class="synth-dot"></div><span>Estimate-to-invoice conversion is clunky, disconnected from payment, or missing entirely.</span></div>
+                <div class="synth-point"><div class="synth-dot"></div><span>Enterprise tools are overkill for small businesses. Simple tools outgrow fast. Nothing exists in between.</span></div>
               </div>
+            </div>
 
-              <!-- WEAKNESSES -->
-              <div class="synth-col synth-weaknesses">
-                <div class="synth-col-head">
-                  <div class="synth-num">02</div>
-                  <p class="synth-col-title">Weaknesses</p>
-                </div>
-                <div class="synth-group">
-                  <p class="synth-platform">QuickBooks, FreshBooks, ZohoBooks</p>
-                  <div class="synth-point"><div class="synth-dot"></div><span>Proposal and contract features are basic, limited for project, milestone, and complex service businesses</span></div>
-                  <div class="synth-point"><div class="synth-dot"></div><span>Customisation and branding options limited vs. dedicated proposal tools</span></div>
-                </div>
-                <div class="synth-rule"></div>
-                <div class="synth-group">
-                  <p class="synth-platform">HoneyBook</p>
-                  <div class="synth-point"><div class="synth-dot"></div><span>Scales poorly for large or complex B2B teams due to limited automation</span></div>
-                  <div class="synth-point"><div class="synth-dot"></div><span>CRM integration is basic</span></div>
-                </div>
-                <div class="synth-rule"></div>
-                <div class="synth-group">
-                  <p class="synth-platform">Salesforce, PandaDoc, DocuSign</p>
-                  <div class="synth-point"><div class="synth-dot"></div><span>Overwhelming for small and hourly businesses. High learning curve and cost.</span></div>
-                  <div class="synth-point"><div class="synth-dot"></div><span>Often requires extensive setup or admin resources to run effectively</span></div>
-                </div>
+            <div class="synth-group-wrap">
+              <div class="synth-section-head"><span class="synth-toggle-label">Takeaway</span></div>
+              <div class="synth-body">
+                <div class="synth-point"><div class="synth-dot"></div><span>Every persona has a best-fit tool with a clear ceiling. No single platform grows with the merchant.</span></div>
+                <div class="synth-point"><div class="synth-dot"></div><span>The estimate-to-payment loop is always fragmented. Merchants stitch tools together just to complete one job.</span></div>
+                <div class="synth-point"><div class="synth-dot"></div><span>None of these tools live inside a POS. Clover is the only platform positioned to own the full workflow natively.</span></div>
               </div>
+            </div>
 
-              <!-- TAKEAWAY -->
-              <div class="synth-col synth-takeaway">
-                <div class="synth-col-head">
-                  <div class="synth-num">03</div>
-                  <p class="synth-col-title">Takeaway</p>
-                </div>
-                <div class="synth-point" style="margin-bottom:12px"><div class="synth-dot"></div><span>No single platform excels across all business types. Each persona has a best fit, and a clear gap.</span></div>
-                <div class="synth-persona-cards">
-                  <div class="synth-persona">
-                    <p class="synth-persona-label">Hourly / Time-based</p>
-                    <p class="synth-persona-text">Accounting-first platforms serve well for time tracking but <strong>outgrow basic templates fast.</strong></p>
-                  </div>
-                  <div class="synth-persona">
-                    <p class="synth-persona-label">Project / Milestone</p>
-                    <p class="synth-persona-text">HoneyBook and PandaDoc handle proposals well but <strong>are costly and excessive for smaller teams.</strong></p>
-                  </div>
-                  <div class="synth-persona">
-                    <p class="synth-persona-label">Recurring</p>
-                    <p class="synth-persona-text">Billing and renewal automation exists in fragments across tools but <strong>no single tool owns the full loop.</strong></p>
-                  </div>
-                </div>
+            <div class="synth-group-wrap">
+              <div class="synth-section-head"><span class="synth-toggle-label">Opportunity for Clover</span></div>
+              <div class="synth-body">
+                <div class="synth-point"><div class="synth-dot"></div><span>Own the full loop from estimate creation through client approval to invoice conversion, without the merchant ever leaving the platform.</span></div>
+                <div class="synth-point"><div class="synth-dot"></div><span>Build a scalable experience that starts simple for hourly merchants and grows to support project and milestone-based workflows.</span></div>
+                <div class="synth-point"><div class="synth-dot"></div><span>Leverage Clover's native payments advantage to make the estimate-to-payment experience faster and more seamless than any competitor.</span></div>
               </div>
-
-              <!-- OPPORTUNITY -->
-              <div class="synth-col synth-opportunity">
-                <div class="synth-col-head">
-                  <div class="synth-num">04</div>
-                  <p class="synth-col-title">Opportunity for Clover</p>
-                </div>
-                <div class="synth-opps">
-                  <div class="synth-opp"><div class="synth-opp-dot"></div><p><strong>Start simple, grow advanced:</strong> core estimates first, unlocking milestone and project features as merchant needs scale.</p></div>
-                  <div class="synth-opp"><div class="synth-opp-dot"></div><p><strong>Integrate advanced workflows</strong> (SOWs, phases, approvals) that accounting-first platforms currently lack.</p></div>
-                  <div class="synth-opp"><div class="synth-opp-dot"></div><p><strong>Enable commenting and version control</strong> for real-time client and team collaboration.</p></div>
-                  <div class="synth-opp"><div class="synth-opp-dot"></div><p><strong>Enhance recurring and batch processing</strong> for estimates, invoicing, and renewals — especially for service businesses.</p></div>
-                  <div class="synth-opp"><div class="synth-opp-dot"></div><p><strong>Enable greater branding control</strong> to close the gap with dedicated proposal tools.</p></div>
-                </div>
-              </div>
-
             </div>
 
             <div class="synth-signal">
@@ -784,6 +692,31 @@ nav.scrolled{background:rgba(13,13,15,0.88);backdrop-filter:blur(20px);border-co
 </a>
 
 <script>
+  // Accordion — init all collapsed, then handle toggle
+        });
+        setTimeout(function(){
+          body.hidden = true;
+          body.style.maxHeight = '';
+          body.style.overflow = '';
+        }, 300);
+      } else {
+        // Expand
+        body.hidden = false;
+        body.style.overflow = 'hidden';
+        body.style.maxHeight = '0';
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){
+            body.style.maxHeight = body.scrollHeight + 'px';
+          });
+        });
+        setTimeout(function(){
+          body.style.maxHeight = '';
+          body.style.overflow = '';
+        }, 300);
+      }
+    });
+  });
+
   var nav = document.getElementById('nav');
   var progress = document.getElementById('progress');
   window.addEventListener('scroll', function(){
