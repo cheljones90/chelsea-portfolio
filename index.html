@@ -93,7 +93,14 @@ nav.scrolled{background:rgba(13,13,15,0.88);backdrop-filter:blur(20px);border-co
 .cl2-dot{width:7px;height:7px;border-radius:50%;}
 .cl2-line{height:2px;border-radius:1px;background:rgba(255,255,255,0.06);}
 
-/* ART: Signal */
+/* ART: The Trio */
+.art-trio{background:linear-gradient(140deg,#0A0A12 0%,#0F0F1A 50%,#141420 100%);display:flex;align-items:center;justify-content:center;}
+.art-trio::before{content:'';position:absolute;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(200,169,126,0.07) 0%,transparent 70%);top:10%;left:10%;}
+.trio-marks{display:flex;align-items:flex-end;gap:16px;position:relative;z-index:1;}
+.trio-mark{border-radius:2px;background:rgba(200,169,126,0.15);border:1px solid rgba(200,169,126,0.25);}
+.trio-mark-1{width:48px;height:96px;}
+.trio-mark-2{width:48px;height:140px;background:rgba(200,169,126,0.25);border-color:rgba(200,169,126,0.4);}
+.trio-mark-3{width:48px;height:72px;}
 .art-signal{background:linear-gradient(140deg,#190D0D 0%,#221010 50%,#1C0E0E 100%);display:flex;align-items:center;justify-content:center;}
 .art-signal::before{content:'';position:absolute;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(239,68,68,0.09) 0%,transparent 70%);top:10%;right:10%;}
 .sig-rings{position:relative;width:130px;height:130px;display:flex;align-items:center;justify-content:center;z-index:1;}
@@ -203,7 +210,7 @@ footer p{font-size:12px;color:var(--text-3);}
   <div class="hero-bg"></div>
   <p class="hero-label">Lead Product Designer — B2B · SaaS · Fintech</p>
   <h1 class="hero-headline">Designing systems<br>that make <em>complex</em><br>feel simple.</h1>
-  <p class="hero-sub">8 years shaping product experiences for B2B and fintech clients. Currently leading design at a global payments company, seeking a senior design leadership role.</p>
+  <p class="hero-sub">8 years shaping product experiences for B2B and fintech clients. Currently leading design at a global payments company, relocating to Amsterdam.</p>
   <div class="hero-meta">
     <div class="hero-stat"><span class="hero-stat-num">8+</span><span class="hero-stat-label">Years experience</span></div>
     <div class="hero-divider"></div>
@@ -311,6 +318,29 @@ footer p{font-size:12px;color:var(--text-3);}
       <a href="/signal" class="case-arrow">View Case Study →</a>
     </div>
   </div>
+
+  <div class="case-study reveal">
+    <div class="case-image">
+      <div class="case-art art-trio">
+        <div class="trio-marks">
+          <div class="trio-mark trio-mark-1"></div>
+          <div class="trio-mark trio-mark-2"></div>
+          <div class="trio-mark trio-mark-3"></div>
+        </div>
+      </div>
+    </div>
+    <div class="case-text">
+      <div class="case-meta"><span class="case-tag">Concept Project</span><span class="case-year">2026</span></div>
+      <h2 class="case-title">The Trio</h2>
+      <p class="case-desc">A concept project exploring what a purpose-built design tool could look like when shaped around how designers actually think and work — not how tools assume they do.</p>
+      <div class="case-stats">
+        <div class="case-stat"><span class="case-stat-num">Solo</span><span class="case-stat-label">My Role</span></div>
+        <div class="case-stat"><span class="case-stat-num">2026</span><span class="case-stat-label">Year</span></div>
+        <div class="case-stat"><span class="case-stat-num">Concept</span><span class="case-stat-label">Status</span></div>
+      </div>
+      <a href="/the-trio" class="case-arrow">View Case Study →</a>
+    </div>
+  </div>
 </section>
 
 <section class="approach" id="approach">
@@ -340,12 +370,12 @@ footer p{font-size:12px;color:var(--text-3);}
 <div class="about-strip" id="about">
   <div class="about-left reveal">
     <h2 class="about-headline">8 years of <em>complex</em><br>made simple.</h2>
-    <p class="about-body">I'm a Lead Product Designer with a background in B2B, SaaS, and fintech, built across a design agency where I've led design, research, and production for clients navigating complex product challenges. I'm seeking my next challenge in a senior design leadership role.</p>
+    <p class="about-body">I'm a Lead Product Designer with a background in B2B, SaaS, and fintech, built across a design agency where I've led design, research, and production for clients navigating complex product challenges. I'm currently relocating my family to Amsterdam, where I'm looking for a senior design role with an IND-registered sponsor.</p>
   </div>
   <div class="about-right reveal">
     <div class="about-pill"><div class="about-pill-dot"></div><span class="about-pill-text">8+ years · B2B, SaaS, Fintech</span></div>
     <div class="about-pill"><div class="about-pill-dot"></div><span class="about-pill-text">Lead Designer · Research · Production</span></div>
-    <div class="about-pill"><div class="about-pill-dot"></div><span class="about-pill-text">Open to Remote · Lead &amp; Director Roles</span></div>
+    <div class="about-pill"><div class="about-pill-dot"></div><span class="about-pill-text">Relocating to Amsterdam · HSM Visa</span></div>
     <div class="about-pill"><div class="about-pill-dot"></div><span class="about-pill-text">Available June 2026</span></div>
   </div>
 </div>
@@ -353,7 +383,7 @@ footer p{font-size:12px;color:var(--text-3);}
 <section class="contact" id="contact">
   <p class="contact-pre reveal">Get in touch</p>
   <h2 class="contact-headline reveal">Let's build something that matters.</h2>
-  <p class="contact-sub reveal">Open to senior design leadership roles — remote-first.</p>
+  <p class="contact-sub reveal">Open to Lead Product Designer roles in Amsterdam.</p>
   <a href="/contact" class="contact-btn reveal">Say hello →</a>
 </section>
 
