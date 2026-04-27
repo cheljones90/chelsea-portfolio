@@ -347,26 +347,20 @@ nav.scrolled{background:rgba(13,13,15,0.88);backdrop-filter:blur(20px);border-co
 <div class="case-section reveal">
   <h2 class="case-section-title">A decision worth <em>noting.</em></h2>
   <div class="case-section-body">
-    <p>When the team wanted to add custom fields to estimates — a way for merchants to include project codes, SKUs, or work order numbers — the path of least resistance was to repurpose Clover's existing custom fields feature. The problem was that existing feature was built to collect information from customers, used in hosted checkout and virtual terminal. Bending it to provide information would have broken a pattern merchants already relied on.</p>
-    <p>I proposed a net-new implementation scoped specifically to estimates, with a fundamentally different purpose: providing information to the client, not collecting it. A cleaner mental model, no risk to existing behaviour, and merchants could search their records by those fields. The proposal was approved and is currently in merchant testing.</p>
+    <p>When the team wanted to give merchants a way to add project-specific information to estimates — like SKUs, work order numbers, or hardware codes — the obvious path was to repurpose Clover's existing Custom Fields feature. The problem was that feature was built to collect information from customers, used in hosted checkout and virtual terminal. Bending it to serve a completely different purpose would have broken a pattern merchants already relied on and created confusion about when to use which version.</p>
+    <p>I proposed a net-new feature called <strong>Reference Details</strong> — scoped specifically to estimates, with a single clear purpose: providing information to the client, not collecting it. A cleaner mental model, no risk to existing behaviour, and merchants can search their records by those reference fields. The proposal was approved and is currently in merchant testing.</p>
   </div>
 </div>
 
 <div class="case-img-grid reveal">
   <div class="case-img-full">
-    <div class="case-img-placeholder">
-      <span class="case-img-placeholder-label">Custom Fields — Existing Collect Pattern</span>
-      <span class="case-img-placeholder-sub">Replace with design comparison artifact</span>
-    </div>
+    <img src="/custom-fields_case-img-grid.jpg" alt="Existing Custom Fields feature — designed to collect information from customers in checkout" style="width:100%;height:100%;object-fit:cover;display:block;">
   </div>
   <div class="case-img-full">
-    <div class="case-img-placeholder">
-      <span class="case-img-placeholder-label">Custom Fields — New Provide Pattern</span>
-      <span class="case-img-placeholder-sub">Replace with design comparison artifact</span>
-    </div>
+    <img src="/reference-details_case-img-grid.jpg" alt="New Reference Details feature — designed to provide project information to clients on estimates" style="width:100%;height:100%;object-fit:cover;display:block;">
   </div>
 </div>
-<p class="case-caption">Existing collect pattern (left) vs. the new provide pattern (right). Same surface, fundamentally different intent.</p>
+<p class="case-caption">Existing Custom Fields (left) vs. the new Reference Details feature (right). Same surface area, fundamentally different intent.</p>
 
 <!-- FULL WIDTH: CONVERSION -->
 <div class="case-img-full reveal">
