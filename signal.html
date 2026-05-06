@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signal — Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0D0D0F;--bg-2:#131316;--bg-3:#1A1A1F;
+  --border:rgba(255,255,255,0.07);--border-2:rgba(255,255,255,0.13);
+  --text:#F0EDE8;--text-2:#9A9690;--text-3:#4A4845;
+  --accent:#C8A97E;
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.5;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:28px 64px;border-bottom:1px solid transparent;transition:border-color 0.4s,background 0.4s;}
+nav.scrolled{background:rgba(13,13,15,0.88);backdrop-filter:blur(20px);border-color:var(--border);}
+.nav-logo{font-family:var(--serif);font-size:20px;color:var(--text);text-decoration:none;}
+.nav-logo span{color:var(--accent);}
+.nav-back{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:400;letter-spacing:0.09em;text-transform:uppercase;color:var(--text-2);text-decoration:none;transition:color 0.2s;}
+.nav-back:hover{color:var(--text);}
+.nav-back svg{transition:transform 0.2s;}
+.nav-back:hover svg{transform:translateX(-3px);}
+.progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:200;width:0%;transition:width 0.1s linear;}
+
+/* HERO */
+.case-hero{min-height:80vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 64px 80px;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
+.case-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 80% 20%,rgba(200,169,126,0.08) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 10% 80%,rgba(200,169,126,0.04) 0%,transparent 55%);}
+.case-hero-label{font-size:11px;font-weight:500;letter-spacing:0.17em;text-transform:uppercase;color:var(--accent);margin-bottom:24px;opacity:0;animation:fadeUp 0.9s 0.2s forwards;}
+.case-hero-title{font-family:var(--serif);font-size:clamp(52px,8vw,96px);line-height:1.0;letter-spacing:-0.03em;color:var(--text);max-width:900px;opacity:0;animation:fadeUp 0.9s 0.35s forwards;}
+.case-hero-title em{font-style:italic;color:var(--accent);}
+.case-hero-sub{margin-top:28px;font-size:16px;font-weight:300;color:var(--text-2);max-width:560px;line-height:1.75;opacity:0;animation:fadeUp 0.9s 0.5s forwards;}
+.case-hero-meta{margin-top:64px;display:flex;align-items:center;gap:0;opacity:0;animation:fadeUp 0.9s 0.65s forwards;}
+.case-meta-stat{display:flex;flex-direction:column;gap:5px;padding-right:48px;}
+.case-meta-divider{width:1px;height:44px;background:var(--border-2);margin-right:48px;}
+.case-meta-num{font-family:var(--serif);font-size:28px;color:var(--text);line-height:1;}
+.case-meta-label{font-size:10px;letter-spacing:0.07em;color:var(--text-3);text-transform:uppercase;}
+
+/* IMAGES */
+.case-img-full{width:100%;aspect-ratio:16/9;background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.case-img-full.tall{aspect-ratio:16/10;}
+.case-img-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.case-img-grid .case-img-full{border:none;aspect-ratio:4/3;}
+.case-img-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.case-img-grid-3 .case-img-full{border:none;aspect-ratio:4/3;}
+.case-img-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;}
+.case-img-placeholder-label{font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3);}
+.case-img-placeholder-sub{font-size:11px;color:var(--text-3);opacity:0.5;}
+
+/* CONTENT */
+.case-content{max-width:800px;margin:0 auto;padding:80px 64px;}
+.case-content.wide{max-width:1080px;}
+.case-overview-label{font-size:11px;font-weight:500;letter-spacing:0.17em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;}
+.case-overview-text{font-size:17px;font-weight:300;color:var(--text-2);line-height:1.85;}
+.case-overview-text p+p{margin-top:20px;}
+.case-overview-text strong{font-weight:500;color:var(--text);}
+
+.case-takeaways{margin-top:48px;display:flex;flex-direction:column;gap:0;border-top:1px solid var(--border);}
+.case-takeaway{display:flex;align-items:flex-start;gap:20px;padding:20px 0;border-bottom:1px solid var(--border);}
+.case-takeaway-num{font-family:var(--serif);font-size:13px;color:var(--text-3);flex-shrink:0;margin-top:2px;width:20px;}
+.case-takeaway-text{font-size:14px;font-weight:300;color:var(--text-2);line-height:1.7;}
+.case-takeaway-text strong{font-weight:500;color:var(--text);}
+
+.case-section{max-width:800px;margin:0 auto;padding:80px 64px;}
+.case-section-title{font-family:var(--serif);font-size:clamp(28px,3vw,40px);line-height:1.1;color:var(--text);margin-bottom:24px;}
+.case-section-title em{font-style:italic;color:var(--accent);}
+.case-section-body{font-size:16px;font-weight:300;color:var(--text-2);line-height:1.85;}
+.case-section-body p+p{margin-top:18px;}
+.case-section-body strong{font-weight:500;color:var(--text);}
+
+.case-caption{padding:16px 64px;font-size:12px;color:var(--text-3);font-style:italic;border-bottom:1px solid var(--border);}
+
+/* ROLE */
+.case-role{padding:48px 64px;border-top:1px solid var(--border);}
+.case-role-inner{max-width:800px;margin:0 auto;}
+.case-role-label{font-size:11px;font-weight:500;letter-spacing:0.17em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:block;}
+.case-role-text{font-size:15px;font-weight:300;color:var(--text-2);line-height:1.8;}
+.case-role-text strong{font-weight:500;color:var(--text);}
+
+/* DECISION CALLOUT */
+.case-callout{margin:0;padding:80px 64px;border-top:1px solid var(--border);background:var(--bg-2);}
+.case-callout-inner{max-width:800px;margin:0 auto;}
+.case-callout-label{font-size:11px;font-weight:500;letter-spacing:0.17em;text-transform:uppercase;color:var(--accent);margin-bottom:24px;}
+.case-callout-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.case-callout-item{padding:28px 32px;background:var(--bg);border:1px solid var(--border);}
+.case-callout-item-label{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;}
+.case-callout-item-label.before{color:#F87171;}
+.case-callout-item-label.after{color:#4ADE80;}
+.case-callout-item-title{font-family:var(--serif);font-size:18px;color:var(--text);margin-bottom:8px;line-height:1.2;}
+.case-callout-item-body{font-size:13px;font-weight:300;color:var(--text-2);line-height:1.65;}
+
+/* IMPACT */
+.case-impact{padding:80px 64px;border-top:1px solid var(--border);}
+.case-impact-inner{max-width:1080px;margin:0 auto;}
+.case-impact-label{font-size:11px;font-weight:500;letter-spacing:0.17em;text-transform:uppercase;color:var(--accent);margin-bottom:48px;}
+.case-impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
+.case-impact-stat{padding:40px 0;border-right:1px solid var(--border);}
+.case-impact-stat:first-child{padding-left:0;}
+.case-impact-stat:last-child{border-right:none;}
+.case-impact-stat+.case-impact-stat{padding-left:48px;}
+.case-impact-num{font-family:var(--serif);font-size:clamp(52px,6vw,80px);color:var(--text);line-height:0.9;margin-bottom:16px;}
+.case-impact-num em{font-style:italic;color:var(--accent);}
+.case-impact-what{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px;}
+.case-impact-desc{font-size:13px;font-weight:300;color:var(--text-2);line-height:1.6;max-width:280px;}
+
+/* NEXT */
+.case-next{padding:96px 64px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:40px;text-decoration:none;transition:background 0.3s;}
+.case-next:hover{background:var(--bg-2);}
+.case-next-label{font-size:11px;font-weight:500;letter-spacing:0.17em;text-transform:uppercase;color:var(--text-3);margin-bottom:12px;}
+.case-next-title{font-family:var(--serif);font-size:clamp(28px,3vw,44px);color:var(--text);line-height:1.1;transition:color 0.3s;}
+.case-next:hover .case-next-title{color:var(--accent);}
+.case-next-arrow{font-size:32px;color:var(--text-3);flex-shrink:0;transition:transform 0.3s,color 0.3s;}
+.case-next:hover .case-next-arrow{transform:translateX(8px);color:var(--accent);}
+
+/* STATUS BADGE */
+.status-badge{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#4ADE80;background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.2);padding:6px 14px;margin-bottom:24px;}
+.status-dot{width:6px;height:6px;border-radius:50%;background:#4ADE80;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:22px 28px;}
+  .case-hero{padding:0 28px 64px;min-height:60vh;}
+  .case-hero-title{font-size:clamp(40px,10vw,64px);}
+  .case-hero-meta{flex-wrap:wrap;row-gap:20px;}
+  .case-meta-divider{display:none;}
+  .case-meta-stat{padding-right:32px;}
+  .case-content,.case-section{padding:60px 28px;}
+  .case-impact{padding:60px 28px;}
+  .case-impact-grid{grid-template-columns:1fr;gap:0;}
+  .case-impact-stat{padding:32px 0;border-right:none;border-bottom:1px solid var(--border);}
+  .case-impact-stat:last-child{border-bottom:none;}
+  .case-impact-stat+.case-impact-stat{padding-left:0;}
+  .case-role{padding:40px 28px;}
+  .case-caption{padding:14px 28px;}
+  .case-img-grid{grid-template-columns:1fr;}
+  .case-img-grid-3{grid-template-columns:1fr;}
+  .case-callout{padding:60px 28px;}
+  .case-callout-grid{grid-template-columns:1fr;}
+  .case-next{padding:64px 28px;flex-direction:column;align-items:flex-start;}
+}
+@media(max-width:540px){
+  .case-hero-title{font-size:clamp(36px,11vw,52px);}
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:1;transform:translateY(0);transition:opacity 0.75s ease,transform 0.75s ease;}
+.js-ready .reveal{opacity:0;transform:translateY(28px);}
+.js-ready .reveal.visible{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav id="nav">
+  <a href="/" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    All Work
+  </a>
+  <a href="/" class="nav-logo">Chelsea<span>.</span></a>
+</nav>
+
+<!-- HERO -->
+<section class="case-hero">
+  <div class="case-hero-bg"></div>
+  <p class="case-hero-label">Signal · Side Project · AI Tool</p>
+  <h1 class="case-hero-title">Usability insight, <em>without the wait.</em></h1>
+  <p class="case-hero-sub">Signal is a personality-driven usability simulation tool that lives as a plugin in Figma. Select your frames, upload your PRD, and get grounded findings before a single user session is scheduled.</p>
+  <div class="case-hero-meta">
+    <div class="case-meta-stat"><span class="case-meta-num">Solo</span><span class="case-meta-label">My Role</span></div>
+    <div class="case-meta-divider"></div>
+    <div class="case-meta-stat"><span class="case-meta-num">2026</span><span class="case-meta-label">Started</span></div>
+    <div class="case-meta-divider"></div>
+    <div class="case-meta-stat"><span class="case-meta-num" style="font-size:18px;line-height:1.3;">Web App<br>Figma</span><span class="case-meta-label">Platform</span></div>
+    <div class="case-meta-divider"></div>
+    <div class="case-meta-stat"><span class="case-meta-num">In Dev</span><span class="case-meta-label">Status</span></div>
+  </div>
+</section>
+
+<!-- HERO IMAGE -->
+<div class="case-img-full tall">
+  <div class="case-img-placeholder">
+    <span class="case-img-placeholder-label">Signal — Hero Visual</span>
+    <span class="case-img-placeholder-sub">Replace with final visual</span>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<div class="case-content reveal">
+  <div class="status-badge"><span class="status-dot"></span>Active development</div>
+  <p class="case-overview-label">Overview</p>
+  <div class="case-overview-text">
+    <p>Design teams are not slow because designers are slow. They are slow because every decision requires a meeting, every finding requires a synthesis doc, and every update requires another round of stakeholder sign-off before anyone moves. I built Signal because I live this problem every day. <strong>Usability testing is one of the most valuable things a product team can do, and it is also one of the most consistently skipped</strong>, not because teams don't care about users, but because the process around it is too slow, too expensive, and too siloed.</p>
+    <p>Signal is a personality-driven usability simulation tool that lives as a plugin in Figma. You select the frames you want to test, upload your PRD, generate personas based on your real target users, and Signal exports your actual design frames to Claude for visual analysis. The findings come back in four stakeholder-specific formats simultaneously, so designers, product managers, engineers, and leadership all get findings in their language without anyone having to translate. One simulation. Four outputs. No meeting required.</p>
+  </div>
+
+  <div class="case-takeaways">
+    <div class="case-takeaway">
+      <span class="case-takeaway-num">01</span>
+      <p class="case-takeaway-text"><strong>Built to solve a problem I experience every day.</strong> Signal was tested against real PRDs from my Clover work, real personas based on merchants I design for, and real design frames from live feature work. The first test surfaced issues I hadn't caught in my own designs. Signal became its own proof of concept.</p>
+    </div>
+    <div class="case-takeaway">
+      <span class="case-takeaway-num">02</span>
+      <p class="case-takeaway-text"><strong>The pivot from web app to Figma plugin was a product decision, not a technical one.</strong> Midway through building I realised the web app was making informed assumptions rather than validating real designs. Moving to a Figma plugin meant Claude could see actual screens, the difference between smart guesswork and real validation.</p>
+    </div>
+    <div class="case-takeaway">
+      <span class="case-takeaway-num">03</span>
+      <p class="case-takeaway-text"><strong>Four outputs from one simulation.</strong> The friction in cross-functional alignment is not a lack of information. It is a translation problem. Signal generates role-specific findings for designers, product managers, engineers, and leadership from a single run. No debrief. No synthesis doc. Just the right information in the right language.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ROLE -->
+<div class="case-role reveal">
+  <div class="case-role-inner">
+    <span class="case-role-label">My Role</span>
+    <p class="case-role-text">Solo designer and builder. Defined the product concept, designed the full experience, and built both the <strong>web app</strong> and the <strong>Figma plugin</strong> from scratch, including PRD parsing, persona generation, frame export, Claude API integration, and the four-tab report system. Signal is a shipped product built and iterated on entirely outside of client work.</p>
+    <p class="case-role-text" style="margin-top:24px;padding:20px 24px;border-left:2px solid var(--accent);font-style:italic;color:var(--text-2);">I am not a developer. I did not know how to use a terminal when I started this. Using AI as a build partner, I stumbled my way into an architecture that works, and learned more about how products are actually made than any client project has taught me. I will always find a way to rise to the challenge.</p>
+  </div>
+</div>
+
+<!-- THE PROBLEM -->
+<div class="case-section reveal">
+  <h2 class="case-section-title">The <em>problem.</em></h2>
+  <div class="case-section-body">
+    <p>By the time usability findings travel from the designer to product to engineering to leadership, the design has already moved on, or worse, it is already in development. The bottleneck is not the testing. It is everything around it. Scheduling sessions, recruiting participants, synthesising findings, writing reports in a language each stakeholder can act on, and waiting for sign-off before anything changes.</p>
+    <p>The result is that most teams skip testing entirely during the build phase and only discover real usability problems in QA or, worse, after launch. Signal exists to compress that cycle without replacing the human judgment that makes great research valuable.</p>
+  </div>
+</div>
+
+<!-- PROBLEM VISUAL -->
+<div class="case-img-full reveal">
+  <div class="case-img-placeholder">
+    <span class="case-img-placeholder-label">Problem Space — Signal</span>
+    <span class="case-img-placeholder-sub">Replace with final visual</span>
+  </div>
+</div>
+
+<!-- THE PIVOT -->
+<div class="case-section reveal">
+  <h2 class="case-section-title">The decision that <em>changed everything.</em></h2>
+  <div class="case-section-body">
+    <p>The web app was the proof of concept. It had a five-step setup flow, PRD parsing, persona generation, a simulation screen with dynamic persona thought bubbles, and a full report view with Designer, Product, Engineering, and Leadership tabs. Sessions autosaved and generated shareable links so teams could drop findings in Slack instead of scheduling a meeting. The concept worked.</p>
+    <p>But during testing, I kept asking the same question: why can't we use the actual screenshots? The web app was generating findings based on PRD context and persona attributes: smart, grounded assumptions. But it wasn't looking at the designs. It couldn't see what was actually on screen. That distinction matters enormously. There is a fundamental difference between an AI inferring what a design probably does and an AI seeing what it actually does.</p>
+    <p>That realisation drove the pivot to a Figma plugin. The plugin connects directly to the canvas, exports real design frames as images, and sends them to Claude for visual analysis. Claude sees your actual screens, evaluates them against your requirements, and generates findings grounded in what is visually there. That is the difference between informed assumption and real validation, and it is the difference between an interesting concept and a tool worth building.</p>
+  </div>
+</div>
+
+<!-- BEFORE / AFTER CALLOUT -->
+<div class="case-callout reveal">
+  <div class="case-callout-inner">
+    <p class="case-callout-label">The Pivot</p>
+    <div class="case-callout-grid">
+      <div class="case-callout-item">
+        <p class="case-callout-item-label before">Web App</p>
+        <h3 class="case-callout-item-title">Smart assumptions</h3>
+        <p class="case-callout-item-body">Persona attributes and PRD context used to generate plausible, grounded findings. Claude infers what the design probably does based on written requirements and user context, without seeing the screens.</p>
+      </div>
+      <div class="case-callout-item">
+        <p class="case-callout-item-label after">Figma Plugin</p>
+        <h3 class="case-callout-item-title">Real validation</h3>
+        <p class="case-callout-item-body">Real design frames exported from the canvas and sent to Claude as images. Claude sees what is actually on screen, maps issues to specific frames, and generates findings grounded in the real design, not an assumption of it.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WEB APP SECTION -->
+<div class="case-section reveal">
+  <h2 class="case-section-title">How Signal <em>works.</em></h2>
+  <div class="case-section-body">
+    <p>The core loop is straightforward. You select the Figma frames you want to test, upload your PRD, and choose or generate personas based on your real target users. Signal exports the selected frames, passes them to Claude alongside the PRD and persona context, and receives back a structured analysis mapped to each screen. The findings are then rendered in four role-specific report tabs simultaneously: Designer, Product, Engineering, and Leadership, each formatted for how that audience needs to act on the information.</p>
+    <p>The share link is the handoff. Instead of scheduling a debrief, you drop a link in Slack and every stakeholder has findings in their language before the conversation begins. Past sessions save to a test library organised by project or client, so every test is a timestamped record of what was validated, against which personas, at which point in the design process.</p>
+  </div>
+</div>
+
+<!-- SIGNAL SCREENS TWO UP -->
+<div class="case-img-grid reveal">
+  <div class="case-img-full">
+    <div class="case-img-placeholder">
+      <span class="case-img-placeholder-label">Setup Flow — PRD and Persona</span>
+      <span class="case-img-placeholder-sub">Replace with final visual</span>
+    </div>
+  </div>
+  <div class="case-img-full">
+    <div class="case-img-placeholder">
+      <span class="case-img-placeholder-label">Report View — Four Tabs</span>
+      <span class="case-img-placeholder-sub">Replace with final visual</span>
+    </div>
+  </div>
+</div>
+<p class="case-caption">Left: the setup flow for uploading a PRD and generating personas. Right: the four-tab report view delivering findings simultaneously to Designer, Product, Engineering, and Leadership.</p>
+
+<!-- FIGMA PLUGIN -->
+<div class="case-section reveal">
+  <h2 class="case-section-title">The <em>plugin.</em></h2>
+  <div class="case-section-body">
+    <p>The Figma plugin is where Signal becomes a real product. Frame selection, PRD parsing, persona generation, and the report generation pipeline are all connected and running. Claude receives the actual exported frames as images alongside the PRD and persona context, analyses what is visually on screen, and maps findings back to specific frames so designers know exactly where in the flow each issue occurs.</p>
+    <p>What is still being refined: the visual design pass to bring the plugin UI in line with Signal's aesthetic, persona reuse across sessions, and the iteration delta feature that will let designers compare Version A to Version B with before and after annotations. The roadmap beyond that includes a PRD gap analysis feature that predicts edge cases the team didn't write down, a commenting layer for stakeholder annotations inside Figma, and a PRD coverage tracker that maps requirements to validated design decisions across the full project lifecycle.</p>
+  </div>
+</div>
+
+<!-- PLUGIN SCREENS -->
+<div class="case-img-full tall reveal">
+  <div class="case-img-placeholder">
+    <span class="case-img-placeholder-label">Figma Plugin — Frame Selection and Report</span>
+    <span class="case-img-placeholder-sub">Replace with final visual</span>
+  </div>
+</div>
+<p class="case-caption">The Figma plugin: frame selection on the canvas and Claude's visual analysis mapped back to each screen in the report.</p>
+
+<!-- KEY DECISIONS -->
+<div class="case-section reveal">
+  <h2 class="case-section-title">Decisions worth <em>noting.</em></h2>
+  <div class="case-section-body">
+    <p><strong>Text annotations over voiceover.</strong> Early in the concept I considered delivering the persona's inner monologue as audio during simulation replay. I cut it. Written annotations are scannable, async-friendly, and keep focus on the design rather than an audio production layer. The persona voice is preserved through first-person framing, written as a person, not a bullet point , while eliminating complexity and keeping the tool accessible in any environment.</p>
+    <p><strong>A test library over a scoring dashboard.</strong> The original concept included a persistent confidence score dashboard tracking scores across time. I replaced it with a test library model, inspired by how Granola saves recordings. A scoring dashboard serves management. A test library serves designers. Organised by project or client, each saved test is also a timestamped design decision record showing what was tested, against which personas, with which version of the design.</p>
+    <p><strong>Four outputs from one simulation.</strong> Rather than producing one universal report that stakeholders have to interpret for their own context, Signal generates role-specific artifacts from a single run. Before defining what each tab should contain, I ran the initial prototype with design, product, and engineering leadership individually, asking each group what they would need from a usability report to actually act on it. The answers were completely different. That research became the architecture. The friction in cross-functional alignment is not a lack of information. It is a translation problem. Every audience needs the same findings communicated in their language.</p>
+  </div>
+</div>
+
+<!-- WHAT I LEARNED -->
+<div class="case-section reveal">
+  <h2 class="case-section-title">What I <em>learned.</em></h2>
+  <div class="case-section-body">
+    <p><strong>Building your own tools changes how you think about design.</strong> Testing Signal against real Clover work surfaced issues I had not caught in my own designs. The tool became its own proof of concept before it was finished. That kind of recursive validation, using the thing you are building to improve the work you are doing, is something I had read about but not experienced until Signal.</p>
+    <p><strong>The honest pivot is always the right one.</strong> It would have been easier to ship the web app and call it done. The concept worked, the demo was strong, and the story was clean. But I kept asking why we couldn't use the real screenshots. The answer, that we couldn't because the architecture didn't support it, wasn't good enough. The pivot to the Figma plugin added months of work and required learning a completely new build environment. It was the right call. The version that sees real screens is a fundamentally different and better product than the version that doesn't.</p>
+    <p><strong>Shipping a side project teaches you things client work can't.</strong> On client projects, constraints are handed to you. On Signal, I had to find them myself, in the API limits, the plugin sandbox, the rendering environment, the report structure. Every constraint I hit was a design decision I had to make. That kind of end-to-end ownership, from concept through architecture through interface through testing, is what makes Signal the most complete demonstration of how I think.</p>
+  </div>
+</div>
+
+<!-- IMPACT -->
+<div class="case-impact reveal">
+  <div class="case-impact-inner">
+    <p class="case-impact-label">Where Signal is Today</p>
+    <div class="case-impact-grid">
+      <div class="case-impact-stat">
+        <div class="case-impact-num"><em>2</em></div>
+        <p class="case-impact-what">Shipped Versions</p>
+        <p class="case-impact-desc">A fully deployed web app and a working Figma plugin, both built from scratch, both running real API calls against real designs.</p>
+      </div>
+      <div class="case-impact-stat">
+        <div class="case-impact-num"><em>4</em></div>
+        <p class="case-impact-what">Report Outputs</p>
+        <p class="case-impact-desc">One simulation generates findings simultaneously for Designer, Product, Engineering, and Leadership, each formatted for how that audience acts on information.</p>
+      </div>
+      <div class="case-impact-stat">
+        <div class="case-impact-num"><em>Active</em></div>
+        <p class="case-impact-what">In Development</p>
+        <p class="case-impact-desc">Signal is a working product in active iteration. The core loop is complete. Persona reuse, iteration delta, and PRD gap analysis are next.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEXT -->
+<a href="/clover-estimates" class="case-next reveal">
+  <div>
+    <p class="case-next-label">Next Case Study</p>
+    <h2 class="case-next-title">Clover Estimates</h2>
+  </div>
+  <span class="case-next-arrow">→</span>
+</a>
+
+<script>
+  var nav=document.getElementById('nav');
+  var progress=document.getElementById('progress');
+  window.addEventListener('scroll',function(){
+    nav.classList.toggle('scrolled',window.scrollY>40);
+    progress.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
+  });
+  if('IntersectionObserver' in window){
+    document.documentElement.classList.add('js-ready');
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry,i){
+        if(entry.isIntersecting){
+          setTimeout(function(){entry.target.classList.add('visible');},i*80);
+          io.unobserve(entry.target);
+        }
+      });
+    },{threshold:0.06,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+  }
+</script>
+</body>
+</html>
