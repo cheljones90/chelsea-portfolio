@@ -193,6 +193,26 @@ footer p{font-size:12px;color:var(--text-3);}
 .reveal{opacity:1;transform:translateY(0);transition:opacity 0.75s ease,transform 0.75s ease;}
 .js-ready .reveal{opacity:0;transform:translateY(28px);}
 .js-ready .reveal.visible{opacity:1;transform:translateY(0);}
+
+/* CLIENT STRIP */
+.clients-wrap{padding:64px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.clients-inner{max-width:1080px;margin:0 auto;}
+.clients-label{font-size:11px;font-weight:500;letter-spacing:0.17em;text-transform:uppercase;color:var(--accent);margin-bottom:40px;}
+.clients-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
+.client-item{padding:28px 32px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:border-color 0.3s,background 0.3s;}
+.client-item:hover{border-color:var(--border-2);background:var(--bg-2);}
+.client-name{font-family:var(--serif);font-size:clamp(16px,1.8vw,22px);color:var(--text-2);letter-spacing:0.02em;transition:color 0.3s;text-align:center;}
+.client-item:hover .client-name{color:var(--text);}
+
+@media(max-width:900px){
+  .clients-wrap{padding:48px 28px;}
+  .clients-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:540px){
+  .clients-grid{grid-template-columns:1fr 1fr;}
+  .client-item{padding:20px 16px;}
+}
+
 </style>
 </head>
 <body>
@@ -210,7 +230,7 @@ footer p{font-size:12px;color:var(--text-3);}
   <div class="hero-bg"></div>
   <p class="hero-label">Lead Product Designer — B2B · SaaS · Fintech</p>
   <h1 class="hero-headline">Designing systems<br>that make <em>complex</em><br>feel simple.</h1>
-  <p class="hero-sub">8 years shaping product experiences for B2B and fintech clients. Currently leading design at a global payments company, relocating to Amsterdam.</p>
+  <p class="hero-sub">8 years shaping product experiences for B2B and fintech clients. Currently leading design at a global payments company, seeking a senior design leadership role.</p>
   <div class="hero-meta">
     <div class="hero-stat"><span class="hero-stat-num">8+</span><span class="hero-stat-label">Years experience</span></div>
     <div class="hero-divider"></div>
@@ -308,29 +328,28 @@ footer p{font-size:12px;color:var(--text-3);}
     </div>
   </div>
 
-  <div class="case-study reveal">
-    <div class="case-image">
-      <div class="case-art art-trio">
-        <div class="trio-marks">
-          <div class="trio-mark trio-mark-1"></div>
-          <div class="trio-mark trio-mark-2"></div>
-          <div class="trio-mark trio-mark-3"></div>
-        </div>
-      </div>
-    </div>
-    <div class="case-text">
-      <div class="case-meta"><span class="case-tag">Concept Project</span><span class="case-year">2026</span></div>
-      <h2 class="case-title">The Trio</h2>
-      <p class="case-desc">A concept project exploring what a purpose-built design tool could look like when shaped around how designers actually think and work — not how tools assume they do.</p>
-      <div class="case-stats">
-        <div class="case-stat"><span class="case-stat-num">Solo</span><span class="case-stat-label">My Role</span></div>
-        <div class="case-stat"><span class="case-stat-num">2026</span><span class="case-stat-label">Year</span></div>
-        <div class="case-stat"><span class="case-stat-num">Concept</span><span class="case-stat-label">Status</span></div>
-      </div>
-      <a href="/the-trio" class="case-arrow">View Case Study →</a>
+  </section>
+
+
+<!-- CLIENTS -->
+<div class="clients-wrap reveal">
+  <div class="clients-inner">
+    <p class="clients-label">Clients</p>
+    <div class="clients-grid">
+      <div class="client-item"><span class="client-name">Clover</span></div>
+      <div class="client-item"><span class="client-name">Volvo</span></div>
+      <div class="client-item"><span class="client-name">Under Armour</span></div>
+      <div class="client-item"><span class="client-name">State Farm</span></div>
+      <div class="client-item"><span class="client-name">Champion</span></div>
+      <div class="client-item"><span class="client-name">Ally</span></div>
+      <div class="client-item"><span class="client-name">Amway</span></div>
+      <div class="client-item"><span class="client-name">Purpose Financial</span></div>
+      <div class="client-item"><span class="client-name">BillGo</span></div>
+      <div class="client-item"><span class="client-name">C&amp;S Grocers</span></div>
+      <div class="client-item"><span class="client-name">NBC</span></div>
     </div>
   </div>
-</section>
+</div>
 
 <section class="approach" id="approach">
   <p class="section-label reveal">How I Work</p>
@@ -356,23 +375,11 @@ footer p{font-size:12px;color:var(--text-3);}
   </div>
 </section>
 
-<div class="about-strip" id="about">
-  <div class="about-left reveal">
-    <h2 class="about-headline">8 years of <em>complex</em><br>made simple.</h2>
-    <p class="about-body">I'm a Lead Product Designer with a background in B2B, SaaS, and fintech, built across a design agency where I've led design, research, and production for clients navigating complex product challenges. I'm currently relocating my family to Amsterdam, where I'm looking for a senior design role with an IND-registered sponsor.</p>
-  </div>
-  <div class="about-right reveal">
-    <div class="about-pill"><div class="about-pill-dot"></div><span class="about-pill-text">8+ years · B2B, SaaS, Fintech</span></div>
-    <div class="about-pill"><div class="about-pill-dot"></div><span class="about-pill-text">Lead Designer · Research · Production</span></div>
-    <div class="about-pill"><div class="about-pill-dot"></div><span class="about-pill-text">Relocating to Amsterdam · HSM Visa</span></div>
-    <div class="about-pill"><div class="about-pill-dot"></div><span class="about-pill-text">Available June 2026</span></div>
-  </div>
-</div>
 
 <section class="contact" id="contact">
   <p class="contact-pre reveal">Get in touch</p>
   <h2 class="contact-headline reveal">Let's build something that matters.</h2>
-  <p class="contact-sub reveal">Open to Lead Product Designer roles in Amsterdam.</p>
+  <p class="contact-sub reveal">Open to senior design leadership roles.</p>
   <a href="/contact" class="contact-btn reveal">Say hello →</a>
 </section>
 
