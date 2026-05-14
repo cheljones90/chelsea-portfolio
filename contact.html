@@ -3,90 +3,241 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact — Chelsea</title>
+<title>Contact — Chelsea Jones</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Geist:wght@300;400;500&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#0D0D0F;--bg-2:#131316;
-  --border:rgba(255,255,255,0.07);--border-2:rgba(255,255,255,0.13);
-  --text:#F0EDE8;--text-2:#9A9690;--text-3:#4A4845;
-  --accent:#C8A97E;--accent-2:#8B6E4E;
-  --serif:'DM Serif Display',Georgia,serif;
-  --sans:'DM Sans',system-ui,sans-serif;
-  --max:1080px;
+:root{
+  --cream:    #F5F2EE;
+  --cream-2:  #EDE9E3;
+  --cream-3:  #E2DDD6;
+  --ink:      #16140F;
+  --ink-2:    #4A4740;
+  --ink-3:    #8C8880;
+  --steel:    #3D6B8A;
+  --steel-2:  #2A4F6A;
+  --navy:     #0D1117;
+  --border:   rgba(22,20,15,0.08);
+  --border-2: rgba(22,20,15,0.15);
+  --serif:    'Cormorant Garamond', Georgia, serif;
+  --sans:     'Geist', system-ui, sans-serif;
+  --mono:     'Geist Mono', monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.5;}
+body{
+  background:var(--cream);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  min-height:100vh;
+}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:28px 64px;border-bottom:1px solid transparent;transition:border-color 0.4s,background 0.4s;}
-nav.scrolled{background:rgba(13,13,15,0.88);backdrop-filter:blur(20px);border-color:var(--border);}
-.nav-logo{font-family:var(--serif);font-size:20px;color:var(--text);text-decoration:none;}
-.nav-logo span{color:var(--accent);}
-.nav-back{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:400;letter-spacing:0.09em;text-transform:uppercase;color:var(--text-2);text-decoration:none;transition:color 0.2s;}
-.nav-back:hover{color:var(--text);}
+/* ─── NAV ──────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:28px 56px;
+  transition:background 0.5s,border-color 0.5s;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{
+  background:rgba(245,242,238,0.92);
+  backdrop-filter:blur(16px);
+  border-color:var(--border);
+}
+.nav-mark{font-family:var(--serif);font-size:22px;font-weight:400;color:var(--ink);text-decoration:none;letter-spacing:-0.01em;}
+.nav-mark span{color:var(--steel);}
+.nav-back{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--ink-3);text-decoration:none;transition:color 0.2s;
+}
+.nav-back:hover{color:var(--ink);}
 .nav-back svg{transition:transform 0.2s;}
 .nav-back:hover svg{transform:translateX(-3px);}
 
-/* PAGE LAYOUT */
-.contact-page{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;max-width:var(--max);margin:0 auto;padding:0 64px;gap:80px;align-items:center;padding-top:120px;padding-bottom:80px;}
+/* ─── HAMBURGER ─────────────────────────────────────── */
+.hamburger{
+  display:none;flex-direction:column;justify-content:center;
+  gap:5px;width:36px;height:36px;
+  background:none;border:none;cursor:pointer;padding:6px;flex-shrink:0;
+  color:var(--ink);
+}
+.hamburger-line{
+  width:100%;height:1px;background:currentColor;
+  transition:transform 0.35s cubic-bezier(0.16,1,0.3,1),opacity 0.2s;
+  transform-origin:center;
+}
+.hamburger.open .hamburger-line:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.hamburger.open .hamburger-line:nth-child(2){opacity:0;}
+.hamburger.open .hamburger-line:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
 
-/* LEFT — header content */
-.contact-left{display:flex;flex-direction:column;gap:0;}
+/* ─── MOBILE DRAWER ─────────────────────────────────── */
+.mobile-drawer{
+  display:none;position:fixed;inset:0;z-index:190;
+  background:var(--cream);flex-direction:column;justify-content:center;
+  padding:56px;opacity:0;transform:translateY(-12px);
+  transition:opacity 0.35s cubic-bezier(0.16,1,0.3,1),transform 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.mobile-drawer.open{opacity:1;transform:translateY(0);}
+.mobile-drawer-links{display:flex;flex-direction:column;gap:0;list-style:none;}
+.mobile-drawer-links li{border-bottom:1px solid var(--border);}
+.mobile-drawer-links a{
+  display:block;font-family:var(--serif);font-size:clamp(36px,10vw,52px);
+  font-weight:300;color:var(--ink);text-decoration:none;
+  letter-spacing:-0.02em;padding:20px 0;transition:color 0.2s;line-height:1.1;
+}
+.mobile-drawer-links a:hover{color:var(--steel);}
+.mobile-drawer-cta{
+  margin-top:40px;display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--cream);background:var(--ink);padding:16px 28px;
+  text-decoration:none;align-self:flex-start;transition:background 0.2s;
+}
+.mobile-drawer-cta:hover{background:var(--steel-2);}
 
-.contact-eyebrow{font-size:11px;font-weight:500;letter-spacing:0.17em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;opacity:0;animation:fadeUp 0.9s 0.2s forwards;}
+/* ─── PAGE LAYOUT ───────────────────────────────────── */
+.contact-page{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  max-width:1080px;
+  margin:0 auto;
+  padding:148px 56px 96px;
+  gap:96px;
+  align-items:start;
+}
 
-.contact-title{font-family:var(--serif);font-size:clamp(36px,4.5vw,60px);line-height:1.05;letter-spacing:-0.02em;color:var(--text);margin-bottom:24px;opacity:0;animation:fadeUp 0.9s 0.35s forwards;}
-.contact-title em{font-style:italic;color:var(--accent);}
-
-.contact-sub{font-size:15px;font-weight:300;color:var(--text-2);line-height:1.8;max-width:380px;margin-bottom:48px;opacity:0;animation:fadeUp 0.9s 0.5s forwards;}
-
-/* Detail pills */
-.contact-details{display:flex;flex-direction:column;gap:0;opacity:0;animation:fadeUp 0.9s 0.65s forwards;}
-.contact-detail{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--border);}
+/* ─── LEFT ──────────────────────────────────────────── */
+.contact-left{
+  display:flex;flex-direction:column;
+  position:sticky;top:120px;
+}
+.contact-eyebrow{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:24px;
+  opacity:0;animation:fadeUp 0.9s 0.2s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.contact-title{
+  font-family:var(--serif);
+  font-size:clamp(36px,4vw,56px);
+  font-weight:300;line-height:1.05;letter-spacing:-0.02em;
+  color:var(--ink);margin-bottom:20px;
+  opacity:0;animation:fadeUp 0.9s 0.35s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.contact-title em{font-style:italic;color:var(--steel);}
+.contact-sub{
+  font-size:15px;font-weight:300;color:var(--ink-2);
+  line-height:1.8;max-width:380px;margin-bottom:48px;
+  opacity:0;animation:fadeUp 0.9s 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.contact-details{
+  display:flex;flex-direction:column;gap:0;
+  opacity:0;animation:fadeUp 0.9s 0.62s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.contact-detail{
+  display:flex;align-items:center;gap:16px;
+  padding:16px 0;border-bottom:1px solid var(--border);
+}
 .contact-detail:first-child{border-top:1px solid var(--border);}
-.contact-detail-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;}
-.contact-detail-label{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);width:80px;flex-shrink:0;}
-.contact-detail-value{font-size:13px;font-weight:300;color:var(--text-2);}
-
-/* RIGHT — form */
-.contact-right{opacity:0;animation:fadeUp 0.9s 0.45s forwards;}
-
-.form-wrap{background:var(--bg-2);border:1px solid var(--border);padding:48px;position:relative;}
-
-/* Tally iframe */
-.tally-frame{width:100%;height:500px;border:none;display:block;}
-
-/* Ambient glow behind form */
-.contact-page::before{content:'';position:fixed;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(200,169,126,0.05) 0%,transparent 70%);top:40%;right:10%;transform:translateY(-50%);pointer-events:none;z-index:0;}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  nav{padding:22px 28px;}
-  .contact-page{grid-template-columns:1fr;padding:100px 28px 64px;gap:56px;align-items:start;}
-  .contact-sub{max-width:100%;}
-  .form-wrap{padding:32px 28px;}
+.contact-detail-rule{
+  width:14px;height:1px;background:var(--steel);flex-shrink:0;
 }
-@media(max-width:540px){
-  .contact-title{font-size:clamp(32px,9vw,48px);}
+.contact-detail-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--ink-3);width:72px;flex-shrink:0;
 }
+.contact-detail-value{
+  font-size:13px;font-weight:300;color:var(--ink-2);
+}
+
+/* LinkedIn row */
+.contact-detail-link{
+  font-size:13px;font-weight:300;color:var(--ink-2);
+  text-decoration:none;transition:color 0.2s;
+}
+.contact-detail-link:hover{color:var(--steel);}
+
+/* ─── RIGHT — form ──────────────────────────────────── */
+.contact-right{
+  opacity:0;animation:fadeUp 0.9s 0.45s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.form-wrap{
+  background:var(--cream-2);
+  border:1px solid var(--border);
+  padding:48px;
+}
+.tally-frame{
+  width:100%;height:520px;
+  border:none;display:block;
+}
+
+/* ─── FOOTER ────────────────────────────────────────── */
+footer{
+  background:var(--cream-2);border-top:1px solid var(--border);
+  padding:24px 56px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.footer-mark{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--ink-2);text-decoration:none;}
+.footer-mark span{color:var(--steel);}
+.footer-links{display:flex;gap:28px;list-style:none;}
+.footer-links a{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);text-decoration:none;transition:color 0.2s;}
+.footer-links a:hover{color:var(--ink);}
+.footer-copy{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:0.06em;}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media(max-width:1024px){
+  nav,.contact-page,footer{padding-left:32px;padding-right:32px;}
+  .contact-page{gap:56px;}
+}
+@media(max-width:768px){
+  .nav-back span{display:none;}
+  .hamburger{display:flex;}
+  .mobile-drawer{display:flex;}
+  nav{padding:20px 24px;}
+  .contact-page{
+    grid-template-columns:1fr;
+    padding:120px 24px 64px;
+    gap:48px;
+  }
+  .contact-left{position:static;}
+  .contact-sub{max-width:100%;}
+  .form-wrap{padding:32px 24px;}
+  footer{padding:20px 24px;flex-wrap:wrap;gap:12px;}
+}
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav id="nav">
   <a href="/" class="nav-back">
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Back
+    <span>Back</span>
   </a>
-  <a href="/" class="nav-logo">Chelsea<span>.</span></a>
+  <a href="/" class="nav-mark">Chelsea<span>.</span></a>
+  <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+  </button>
 </nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+  <ul class="mobile-drawer-links">
+    <li><a href="/#work" class="drawer-link">Work</a></li>
+    <li><a href="/about" class="drawer-link">About</a></li>
+  </ul>
+  <a href="/contact" class="mobile-drawer-cta drawer-link">Get in Touch</a>
+</div>
 
 <div class="contact-page">
 
@@ -98,19 +249,24 @@ nav.scrolled{background:rgba(13,13,15,0.88);backdrop-filter:blur(20px);border-co
 
     <div class="contact-details">
       <div class="contact-detail">
-        <div class="contact-detail-dot"></div>
+        <div class="contact-detail-rule"></div>
         <span class="contact-detail-label">Based</span>
-        <span class="contact-detail-value">Remote — based in Georgia, USA</span>
+        <span class="contact-detail-value">Remote — Georgia, USA</span>
       </div>
       <div class="contact-detail">
-        <div class="contact-detail-dot"></div>
+        <div class="contact-detail-rule"></div>
         <span class="contact-detail-label">Open to</span>
         <span class="contact-detail-value">Design leadership roles</span>
       </div>
       <div class="contact-detail">
-        <div class="contact-detail-dot"></div>
+        <div class="contact-detail-rule"></div>
         <span class="contact-detail-label">Response</span>
         <span class="contact-detail-value">Within 48 hours</span>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-rule"></div>
+        <span class="contact-detail-label">LinkedIn</span>
+        <a href="https://www.linkedin.com/in/chelseajones-design" target="_blank" class="contact-detail-link">chelseajones-design</a>
       </div>
     </div>
   </div>
@@ -132,11 +288,52 @@ nav.scrolled{background:rgba(13,13,15,0.88);backdrop-filter:blur(20px);border-co
 
 </div>
 
+<!-- FOOTER -->
+<footer>
+  <a href="/" class="footer-mark">Chelsea<span>.</span></a>
+  <ul class="footer-links">
+    <li><a href="https://www.linkedin.com/in/chelseajones-design" target="_blank">LinkedIn</a></li>
+    <li><a href="/resume.pdf">Resume</a></li>
+  </ul>
+  <p class="footer-copy">© 2026</p>
+</footer>
+
 <script>
-  var nav = document.getElementById('nav');
-  window.addEventListener('scroll', function(){
-    nav.classList.toggle('scrolled', window.scrollY > 40);
-  });
+// ─── NAV ──────────────────────────────────────────────
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, {passive:true});
+
+// ─── HAMBURGER ────────────────────────────────────────
+const hamburger    = document.getElementById('hamburger');
+const mobileDrawer = document.getElementById('mobileDrawer');
+function openDrawer(){
+  hamburger.classList.add('open');
+  hamburger.setAttribute('aria-expanded','true');
+  mobileDrawer.classList.add('open');
+  mobileDrawer.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+function closeDrawer(){
+  hamburger.classList.remove('open');
+  hamburger.setAttribute('aria-expanded','false');
+  mobileDrawer.classList.remove('open');
+  mobileDrawer.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+hamburger.addEventListener('click',()=>{
+  hamburger.classList.contains('open') ? closeDrawer() : openDrawer();
+});
+document.querySelectorAll('.drawer-link').forEach(l=>l.addEventListener('click',closeDrawer));
+
+// ─── TALLY DYNAMIC HEIGHT ─────────────────────────────
+window.addEventListener('message', e => {
+  if (typeof e.data === 'object' && e.data.type === 'tally-form-height') {
+    const frame = document.getElementById('tally-frame');
+    if (frame) frame.style.height = e.data.height + 'px';
+  }
+});
 </script>
 </body>
 </html>
