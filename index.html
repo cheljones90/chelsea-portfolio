@@ -94,6 +94,13 @@ nav.hero-mode.scrolled .nav-cta{background:var(--ink);color:var(--cream);border-
 }
 .carousel-slide.active .slide-img{transform:scale(1);}
 
+/* Video slides — no ken-burns, cover fit */
+.slide-video{
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+}
+
 /* Gradient overlay — bottom fade for legibility */
 .hero-overlay{
   position:absolute;inset:0;z-index:2;
@@ -738,25 +745,48 @@ footer{
      ═══════════════════════════════════════════════════ -->
 <section class="hero" id="hero">
 
-  <!-- Slides -->
+  <!-- ─────────────────────────────────────────────────────────────────
+       CAROUSEL SLIDES
+       Each slide can be an image OR a video.
+
+       IMAGE SLIDE:
+         <div class="carousel-slide" data-index="N">
+           <img src="/your-image.jpg" alt="Description" class="slide-img">
+         </div>
+
+       VIDEO SLIDE:
+         <div class="carousel-slide" data-index="N" data-type="video">
+           <video class="slide-video" src="/your-video.mp4"
+                  muted playsinline loop preload="metadata"></video>
+         </div>
+
+       Tips:
+       - Use .mp4 (H.264) for broadest compatibility
+       - Keep clips under 10MB — compress with Handbrake or ffmpeg
+       - Videos auto-play muted when the slide becomes active,
+         pause when it leaves, and respect the pause/play button
+  ──────────────────────────────────────────────────────────────────── -->
   <div class="carousel-track">
 
-    <div class="carousel-slide active" data-index="0">
-      <!-- Real image: drop your most cinematic Clover / work photo here -->
-      <img src="/hero_case-img-full.jpg" alt="Professional services merchant at work" class="slide-img"
-           onerror="this.style.display='none'">
-      <div class="slide-placeholder" style="background:#1a1810;">Slide 1 — Estimates Hero</div>
+    <!-- SLIDE 1 — Clover Full Service Testimonial -->
+    <div class="carousel-slide active" data-index="0" data-type="video">
+      <video class="slide-video" src="Clover_FullService_Testimonial.mp4"
+             muted playsinline loop preload="metadata"></video>
+      <div class="slide-placeholder" style="background:#1a1810;">Clover Full Service</div>
     </div>
 
-    <div class="carousel-slide" data-index="1">
-      <img src="/loyalty_-_hero_case-img-full.png" alt="Customer at Clover POS" class="slide-img"
-           onerror="this.style.display='none'">
-      <div class="slide-placeholder" style="background:#101820;">Slide 2 — Loyalty Hero</div>
+    <!-- SLIDE 2 — Champion -->
+    <div class="carousel-slide" data-index="1" data-type="video">
+      <video class="slide-video" src="Champion_clip.mp4"
+             muted playsinline loop preload="metadata"></video>
+      <div class="slide-placeholder" style="background:#101820;">Champion</div>
     </div>
 
-    <div class="carousel-slide" data-index="2">
-      <!-- Third slide: add your most impactful imagery here -->
-      <div class="slide-placeholder" style="background:#141214;">Slide 3 — Add your image</div>
+    <!-- SLIDE 3 — Mini Bodega -->
+    <div class="carousel-slide" data-index="2" data-type="video">
+      <video class="slide-video" src="06-Mini-Bodega.mp4"
+             muted playsinline loop preload="metadata"></video>
+      <div class="slide-placeholder" style="background:#141214;">Mini Bodega</div>
     </div>
 
   </div>
@@ -1021,15 +1051,38 @@ document.querySelectorAll('.drawer-link, .mobile-drawer-cta').forEach(link => {
 });
 
 // ─── CAROUSEL ────────────────────────────────────────
-const slides = document.querySelectorAll('.carousel-slide');
-const dots = document.querySelectorAll('.carousel-dot');
+const slides   = document.querySelectorAll('.carousel-slide');
+const dots     = document.querySelectorAll('.carousel-dot');
 const pauseBtn = document.getElementById('pauseBtn');
 let current = 0;
-let paused = false;
+let paused  = false;
 let timer;
 const INTERVAL = 5000;
 
+// Helper: get video el inside a slide (if any)
+function slideVideo(slide) {
+  return slide.querySelector('video');
+}
+
+function activateSlide(slide) {
+  const vid = slideVideo(slide);
+  if (vid && !paused) {
+    vid.currentTime = 0;
+    vid.play().catch(() => {}); // catch autoplay policy rejections silently
+  }
+}
+
+function deactivateSlide(slide) {
+  const vid = slideVideo(slide);
+  if (vid) {
+    vid.pause();
+    vid.currentTime = 0;
+  }
+}
+
 function goTo(index) {
+  // Outgoing slide
+  deactivateSlide(slides[current]);
   slides[current].classList.remove('active');
   slides[current].classList.add('prev');
   dots[current].classList.remove('active');
@@ -1038,11 +1091,13 @@ function goTo(index) {
 
   current = index;
 
+  // Incoming slide
   slides[current].classList.remove('prev');
   slides[current].classList.add('active');
   dots[current].classList.add('active');
+  activateSlide(slides[current]);
 
-  // Reset and restart fill animation
+  // Reset and restart dot fill animation
   const fill = dots[current].querySelector('.carousel-dot-fill');
   fill.style.transition = 'none';
   fill.style.width = '0%';
@@ -1072,23 +1127,25 @@ dots.forEach(dot => {
   });
 });
 
-// Pause/play
+// Pause/play — also pauses/resumes active video
 pauseBtn.addEventListener('click', () => {
   paused = !paused;
   document.body.classList.toggle('paused', paused);
+  const vid = slideVideo(slides[current]);
   if (paused) {
     clearInterval(timer);
-    const fill = dots[current].querySelector('.carousel-dot-fill');
-    fill.style.transition = 'none';
+    if (vid) vid.pause();
+    dots[current].querySelector('.carousel-dot-fill').style.transition = 'none';
   } else {
     startTimer();
+    if (vid) vid.play().catch(() => {});
     const fill = dots[current].querySelector('.carousel-dot-fill');
     fill.style.transition = `width ${INTERVAL}ms linear`;
     fill.style.width = '100%';
   }
 });
 
-// Start
+// Start — activate first slide video if present
 goTo(0);
 startTimer();
 
