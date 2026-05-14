@@ -371,6 +371,27 @@ footer{
   .about-cta{flex-direction:column;align-items:flex-start;gap:36px;padding:64px 24px;}
   footer{padding:20px 24px;flex-wrap:wrap;gap:12px;}
 }
+
+/* Hero resume CTA */
+.hero-resume-cta{
+  display:inline-flex;
+  align-self:flex-start;
+  align-items:center;
+  gap:10px;
+  margin-top:32px;
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--ink);
+  text-decoration:none;
+  border-bottom:1px solid var(--border-2);
+  padding-bottom:4px;
+  transition:color 0.2s, border-color 0.2s;
+}
+.hero-resume-cta:hover{color:var(--steel);border-color:var(--steel);}
+.hero-resume-cta svg{transition:transform 0.2s;}
+.hero-resume-cta:hover svg{transform:translateX(3px);}
 </style>
 </head>
 <body>
@@ -405,7 +426,11 @@ footer{
 <section class="about-hero">
   <p class="about-hero-label">About</p>
   <h1 class="about-hero-title">Designer. Advocate. <em>Human first.</em></h1>
-  <p class="about-hero-sub">8 years of B2B and fintech design, shaped by a belief that good experiences start with caring about the people on the other side of the screen.</p>
+  <p class="about-hero-sub">8 years of design across industries, shaped by agency work and a belief that good experiences start with caring about the people on the other side of the screen.</p>
+  <a href="/resume.pdf" target="_blank" class="hero-resume-cta reveal">
+    View Resume
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M6.5 2l4.5 4.5L6.5 11" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
   <div class="hero-initial" aria-hidden="true">CJ</div>
 </section>
 
