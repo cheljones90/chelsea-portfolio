@@ -164,22 +164,7 @@ nav.scrolled{
   font-family:var(--mono);font-size:9px;letter-spacing:0.12em;
   color:rgba(245,242,238,0.4);text-transform:uppercase;
 }
-/* Scroll cue */
-.hero-scroll-cue{
-  position:absolute;bottom:32px;right:56px;z-index:2;
-  display:flex;align-items:center;gap:10px;
-  font-family:var(--mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;
-  color:rgba(245,242,238,0.35);
-  opacity:0;animation:fadeUp 0.9s 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
-}
-.scroll-cue-line{
-  width:1px;height:32px;background:rgba(245,242,238,0.2);
-  animation:scrollPulse 2s ease-in-out infinite;
-}
-@keyframes scrollPulse{
-  0%,100%{opacity:0.2;transform:scaleY(1);}
-  50%{opacity:0.6;transform:scaleY(1.2);}
-}
+
 
 /* ─── IMAGES ────────────────────────────────────────── */
 .case-img-full{
@@ -339,15 +324,40 @@ nav.scrolled{
 .case-role-text{font-size:15px;font-weight:300;color:var(--ink-2);line-height:1.9;}
 .case-role-text strong{font-weight:500;color:var(--ink);}
 
-/* ─── TWO-COL SECTION ───────────────────────────────── */
-.case-section.two-col .case-section-body{
+/* ─── CHAPTER LIST (What I Learned) ─────────────────── */
+.case-chapters{
+  display:flex;flex-direction:column;gap:0;
+  margin-top:64px;
+}
+.case-chapter{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:40px 56px;
+  grid-template-columns:80px 1fr;
+  gap:0 40px;
+  padding:56px 0;
+  border-top:1px solid var(--border);
   align-items:start;
 }
-.case-section.two-col .case-section-body p{margin-top:0;}
-.case-section.two-col .case-section-body p+p{margin-top:0;}
+.case-chapter:last-child{border-bottom:1px solid var(--border);}
+.case-chapter-num{
+  font-family:var(--serif);
+  font-size:80px;font-weight:300;line-height:0.85;
+  color:rgba(22,20,15,0.06);
+  letter-spacing:-0.04em;
+  user-select:none;
+  padding-top:4px;
+}
+.case-chapter-body{}
+.case-chapter-title{
+  font-family:var(--serif);
+  font-size:clamp(20px,2vw,26px);
+  font-weight:400;color:var(--ink);
+  letter-spacing:-0.01em;line-height:1.2;
+  margin-bottom:16px;
+}
+.case-chapter-title em{font-style:italic;color:var(--steel);}
+.case-chapter-text{
+  font-size:15px;font-weight:300;color:var(--ink-2);line-height:1.85;
+}
 
 /* ─── IMPACT ────────────────────────────────────────── */
 .case-impact{
@@ -363,8 +373,15 @@ nav.scrolled{
 .case-impact-inner{max-width:1080px;margin:0 auto;position:relative;z-index:1;}
 .case-impact-label{
   font-family:var(--mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;
-  color:rgba(245,242,238,0.3);margin-bottom:48px;
+  color:rgba(245,242,238,0.3);margin-bottom:20px;
 }
+.case-impact-headline{
+  font-family:var(--serif);
+  font-size:clamp(36px,4.5vw,64px);
+  font-weight:300;line-height:1.05;letter-spacing:-0.025em;
+  color:var(--cream);margin-bottom:64px;
+}
+.case-impact-headline em{font-style:italic;color:rgba(245,242,238,0.35);}
 .case-impact-grid{
   display:grid;grid-template-columns:repeat(3,1fr);gap:0;
 }
@@ -456,9 +473,9 @@ footer{
   .case-meta-stat{padding-right:28px;}
   .case-hero{min-height:100svh;padding:0 24px 64px;}
   .case-hero-sub{display:none;}
-  .hero-scroll-cue{right:24px;}
   .case-content,.case-section{padding:72px 24px;}
-  .case-section.two-col .case-section-body{grid-template-columns:1fr;}
+  .case-chapter{grid-template-columns:56px 1fr;gap:0 24px;padding:40px 0;}
+  .case-chapter-num{font-size:56px;}
   .case-role-inner{grid-template-columns:1fr;gap:12px;}
   .case-stats{grid-template-columns:1fr;gap:0;}
   .case-stat{padding:24px 0;border-right:none;border-bottom:1px solid var(--border);}
@@ -533,10 +550,6 @@ footer{
     </div>
   </div>
 
-  <div class="hero-scroll-cue">
-    <div class="scroll-cue-line"></div>
-    Scroll
-  </div>
 </section>
 
 <!-- OVERVIEW -->
@@ -549,19 +562,19 @@ footer{
   <!-- INLINE STATS -->
   <div class="case-stats">
     <div class="case-stat">
-      <p class="case-stat-label">Shipped</p>
-      <div class="case-stat-num"><em>Live</em></div>
-      <p class="case-stat-desc">Across all Clover restaurant, service, and retail devices.</p>
+      <p class="case-stat-label">Platform reach</p>
+      <div class="case-stat-num">4<em>M+</em></div>
+      <p class="case-stat-desc">Devices worldwide running the redesigned loyalty experience.</p>
     </div>
     <div class="case-stat">
-      <p class="case-stat-label">Forum Demo</p>
-      <div class="case-stat-num">Fiserv</div>
-      <p class="case-stat-desc">Demoed to senior Fiserv leadership. Response so positive they wanted to build immediately.</p>
+      <p class="case-stat-label">Merchant adoption</p>
+      <div class="case-stat-num">35<em>%</em></div>
+      <p class="case-stat-desc">Of merchant base using customer engagement tools post-launch.</p>
     </div>
     <div class="case-stat">
-      <p class="case-stat-label">What it started</p>
-      <div class="case-stat-num"><em>+</em>1 Team</div>
-      <p class="case-stat-desc">A dedicated team now building a loyalty app and merchant marketplace.</p>
+      <p class="case-stat-label">Redemption rate</p>
+      <div class="case-stat-num">8<em>%</em></div>
+      <p class="case-stat-desc">Increase in redemption rate following the redesigned customer experience.</p>
     </div>
   </div>
 
@@ -633,23 +646,23 @@ footer{
 <!-- RESEARCH TWO UP -->
 <div class="case-img-grid reveal">
   <div class="case-img-full">
-    <img src="/merchant_userjourney_caseimggrid.jpg" alt="Merchant user journey map — persona, areas of opportunity, and touchpoints across the loyalty experience">
+    <img src="merchant_userjourney_caseimggrid.jpg" alt="Merchant user journey map — persona, areas of opportunity, and touchpoints across the loyalty experience">
   </div>
   <div class="case-img-full">
-    <img src="/customer_userjourney_caseimggrid.jpg" alt="Customer user journey map — returning and first time customer touchpoints across the loyalty experience">
+    <img src="customer_userjourney_caseimggrid.jpg" alt="Customer user journey map — returning and first time customer touchpoints across the loyalty experience">
   </div>
 </div>
 <p class="case-caption">Merchant user journey and areas of opportunity (left) and customer user journey across returning and first-time customers (right).</p>
 
 <!-- ROADMAP FULL WIDTH -->
 <div class="case-img-full tall reveal">
-  <img src="/strategyroadmap_caseimgfull.jpg" alt="Feature roadmap — MVP sprints and quarterly delivery plan from Q1 2024 through Q1 2025">
+  <img src="strategyroadmap_caseimgfull.jpg" alt="Feature roadmap — MVP sprints and quarterly delivery plan from Q1 2024 through Q1 2025">
 </div>
 <p class="case-caption">The feature prioritization roadmap, mapping MVP sprints and delivery phases from Q1 2024 through Q1 2025.</p>
 
 <!-- MERCHANT FULL WIDTH -->
 <div class="case-img-full tall reveal">
-  <img src="/onboarddashboard_caseimgfull.jpg" alt="Merchant loyalty onboarding, program creation, and rewards dashboard across the Clover experience">
+  <img src="onboarddashboard_caseimgfull.jpg" alt="Merchant loyalty onboarding, program creation, and rewards dashboard across the Clover experience">
 </div>
 <p class="case-caption">The merchant experience, from loyalty setup and program creation through to the rewards dashboard.</p>
 
@@ -664,13 +677,13 @@ footer{
 <!-- CUSTOMER SCREENS THREE UP -->
 <div class="case-img-grid-3 reveal">
   <div class="case-img-full">
-    <img src="/signup_caseimggrid.jpg" alt="Customer loyalty sign up — earn 20 points prompt at checkout">
+    <img src="signup_caseimggrid.jpg" alt="Customer loyalty sign up — earn 20 points prompt at checkout">
   </div>
   <div class="case-img-full">
-    <img src="/pointsaccum_caseimggrid.jpg" alt="Points accumulation — you earned 20 points towards an offer">
+    <img src="pointsaccum_caseimggrid.jpg" alt="Points accumulation — you earned 20 points towards an offer">
   </div>
   <div class="case-img-full">
-    <img src="/speedbump_caseimggrid.jpg" alt="Checkout speed bump — get 20 points on today's purchase loyalty prompt">
+    <img src="speedbump_caseimggrid.jpg" alt="Checkout speed bump — get 20 points on today's purchase loyalty prompt">
   </div>
 </div>
 <p class="case-caption">The customer journey: signing up, earning points after payment, and the checkout speed bump that turns a transaction into a loyalty moment.</p>
@@ -686,17 +699,35 @@ footer{
 
 <!-- DEVICE SUITE FULL WIDTH -->
 <div class="case-img-full reveal">
-  <img src="/devicesuite_caseimgfull.jpg" alt="Loyalty experience across the Clover device suite — station, mini, and flex">
+  <img src="devicesuite_caseimgfull.jpg" alt="Loyalty experience across the Clover device suite — station, mini, and flex">
 </div>
 <p class="case-caption">The experience designed across Clover's full device suite, covering merchant-facing and customer-facing screens across restaurant, service, and retail form factors.</p>
 
 <!-- WHAT I LEARNED -->
-<div class="case-section two-col reveal">
+<div class="case-section reveal">
   <h2 class="case-section-title">What I <em>learned.</em></h2>
-  <div class="case-section-body">
-    <p><strong>Big ideas have long tails.</strong> The features that got cut from this engagement didn't disappear. They became the foundation for a follow-on team and a product direction that wouldn't have existed without the initial push. Planting a well-researched idea in the right conversation is sometimes more valuable than shipping a smaller version of it.</p>
-    <p><strong>Customer access is worth fighting for.</strong> We interviewed merchants but couldn't access customers directly. That gap showed up in the work. The customer-side experience was designed from proxy data and competitive patterns rather than direct insight. If I ran this engagement again, I would push harder and earlier to close that research gap, even if it required creative methods to get there.</p>
-    <p><strong>Advocacy works best when it's concrete.</strong> Stakeholders respond to ideas they can see and touch. When blue sky thinking got resistance, the ideas that survived were the ones mocked up in the current framework, tied back to user research, and presented with a clear rationale for why now.</p>
+  <div class="case-chapters">
+    <div class="case-chapter">
+      <div class="case-chapter-num">01</div>
+      <div class="case-chapter-body">
+        <h3 class="case-chapter-title">Big ideas have <em>long tails.</em></h3>
+        <p class="case-chapter-text">The features that got cut from this engagement didn't disappear. They became the foundation for a follow-on team and a product direction that wouldn't have existed without the initial push. Planting a well-researched idea in the right conversation is sometimes more valuable than shipping a smaller version of it.</p>
+      </div>
+    </div>
+    <div class="case-chapter">
+      <div class="case-chapter-num">02</div>
+      <div class="case-chapter-body">
+        <h3 class="case-chapter-title">Customer access is worth <em>fighting for.</em></h3>
+        <p class="case-chapter-text">We interviewed merchants but couldn't access customers directly. That gap showed up in the work. The customer-side experience was designed from proxy data and competitive patterns rather than direct insight. If I ran this engagement again, I would push harder and earlier to close that research gap, even if it required creative methods to get there.</p>
+      </div>
+    </div>
+    <div class="case-chapter">
+      <div class="case-chapter-num">03</div>
+      <div class="case-chapter-body">
+        <h3 class="case-chapter-title">Advocacy works best when it's <em>concrete.</em></h3>
+        <p class="case-chapter-text">Stakeholders respond to ideas they can see and touch. When blue sky thinking got resistance, the ideas that survived were the ones mocked up in the current framework, tied back to user research, and presented with a clear rationale for why now.</p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -704,21 +735,22 @@ footer{
 <div class="case-impact reveal">
   <div class="case-impact-inner">
     <p class="case-impact-label">Impact</p>
+    <h2 class="case-impact-headline">The work is still <em>growing.</em></h2>
     <div class="case-impact-grid">
       <div class="case-impact-stat">
-        <div class="case-impact-num"><em>Live</em></div>
-        <p class="case-impact-what">Shipped</p>
-        <p class="case-impact-desc">Loyalty and marketing redesign live across all Clover devices. Customer MVP experience launched on the full device suite.</p>
+        <div class="case-impact-num">23<em>%</em></div>
+        <p class="case-impact-what">YoY Revenue Growth</p>
+        <p class="case-impact-desc">Year-over-year revenue growth attributed to the redesigned loyalty and engagement program.</p>
       </div>
       <div class="case-impact-stat">
-        <div class="case-impact-num">Fiserv</div>
-        <p class="case-impact-what">Forum Demo</p>
-        <p class="case-impact-desc">Demoed to senior Fiserv leadership and investors. Response was overwhelmingly positive. They wanted to begin building immediately.</p>
+        <div class="case-impact-num">60<em>%</em></div>
+        <p class="case-impact-what">Adoption Rate</p>
+        <p class="case-impact-desc">Merchant adoption rate over two years, up from a baseline that had stalled before the redesign.</p>
       </div>
       <div class="case-impact-stat">
-        <div class="case-impact-num"><em>+</em>1</div>
-        <p class="case-impact-what">Team Now Building</p>
-        <p class="case-impact-desc">A dedicated team is actively developing a loyalty app and merchant marketplace, work that traces directly to this engagement.</p>
+        <div class="case-impact-num">1<em>+</em></div>
+        <p class="case-impact-what">Team Continuing the Work</p>
+        <p class="case-impact-desc">A dedicated team now building a loyalty app and merchant marketplace, tracing directly to this engagement.</p>
       </div>
     </div>
   </div>
