@@ -25,7 +25,8 @@
   --mono:     'Geist Mono', monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-a,button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+a{-webkit-tap-highlight-color:rgba(0,0,0,0);}
+button{-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:manipulation;}
 html{scroll-behavior:smooth;}
 body{
   background:var(--cream);
@@ -316,6 +317,7 @@ body.paused .play-icon{display:block;}
   scrollbar-width:none;
   padding-bottom:8px;
   cursor:grab;
+  touch-action:pan-x;
 }
 .work-track::-webkit-scrollbar{display:none;}
 .work-track:active{cursor:grabbing;}
@@ -621,8 +623,9 @@ footer{
 }
 @media(max-width:768px){
   .nav-links{display:none;}
-  .work-track{cursor:default;}
+  .work-track{cursor:default;touch-action:pan-x;}
   .case-card{cursor:pointer;}
+
   .case-card,.case-card:first-child{width:320px;}
   .approach-grid{grid-template-columns:1fr;}
   .contact-strip{flex-direction:column;align-items:flex-start;}
@@ -925,7 +928,7 @@ footer{
     </div>
   </div>
 
-  <div class="work-nav reveal">
+  <div class="work-nav">
     <span class="work-nav-label">Scroll to explore</span>
     <div class="work-nav-arrows">
       <button class="work-nav-btn disabled" id="workPrev" aria-label="Previous">
@@ -1006,7 +1009,7 @@ footer{
       <span class="about-pill">Design Leadership</span>
       <span class="about-pill">Available upon offer</span>
     </div>
-    <a href="/about" class="about-cta reveal">
+    <a href="/about" class="about-cta">
       More about me
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
@@ -1016,7 +1019,7 @@ footer{
 <!-- ═══════════════════════════════════════════════════
      CONTACT
      ═══════════════════════════════════════════════════ -->
-<section class="contact-strip">
+<section class="contact-strip visible">
   <h2 class="contact-text reveal">Have a role in <em>mind?</em></h2>
   <a href="/contact" class="btn-ink reveal">
     Get in Touch
@@ -1025,7 +1028,7 @@ footer{
 </section>
 
 <!-- FOOTER -->
-<footer>
+<footer class="visible">
   <a href="/" class="footer-mark">Chelsea<span>.</span></a>
   <ul class="footer-links">
     <li><a href="https://www.linkedin.com/in/chelseajones-design" target="_blank">LinkedIn</a></li>
