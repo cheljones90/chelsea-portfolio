@@ -25,6 +25,7 @@
   --mono:     'Geist Mono', monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+a,button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
 html{scroll-behavior:smooth;}
 body{
   background:var(--cream);
@@ -321,6 +322,7 @@ body.paused .play-icon{display:block;}
 
 .case-card{
   flex-shrink:0;
+  cursor:pointer;
   width:480px;
   scroll-snap-align:start;
   display:flex;
@@ -553,7 +555,8 @@ body.paused .play-icon{display:block;}
   color:rgba(245,242,238,0.4);border:1px solid rgba(245,242,238,0.1);padding:7px 14px;
 }
 .about-cta{
-  display:inline-flex;align-items:center;gap:10px;
+  display:inline-flex;
+  cursor:pointer;align-items:center;gap:10px;
   font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
   color:var(--cream);text-decoration:none;
   border-bottom:1px solid rgba(245,242,238,0.2);padding-bottom:3px;
@@ -577,7 +580,8 @@ body.paused .play-icon{display:block;}
 }
 .contact-text em{font-style:italic;color:var(--steel);}
 .btn-ink{
-  display:inline-flex;align-items:center;gap:12px;
+  display:inline-flex;
+  cursor:pointer;align-items:center;gap:12px;
   font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
   color:var(--cream);background:var(--ink);
   padding:16px 36px;text-decoration:none;white-space:nowrap;flex-shrink:0;
@@ -596,7 +600,7 @@ footer{
 .footer-mark{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--ink-2);text-decoration:none;}
 .footer-mark span{color:var(--steel);}
 .footer-links{display:flex;gap:28px;list-style:none;}
-.footer-links a{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);text-decoration:none;transition:color 0.2s;}
+.footer-links a{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);text-decoration:none;transition:color 0.2s;cursor:pointer;}
 .footer-links a:hover{color:var(--ink);}
 .footer-copy{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:0.06em;}
 
@@ -617,6 +621,8 @@ footer{
 }
 @media(max-width:768px){
   .nav-links{display:none;}
+  .work-track{cursor:default;}
+  .case-card{cursor:pointer;}
   .case-card,.case-card:first-child{width:320px;}
   .approach-grid{grid-template-columns:1fr;}
   .contact-strip{flex-direction:column;align-items:flex-start;}
@@ -1210,7 +1216,8 @@ window.addEventListener('mouseup', () => {
 
 window.addEventListener('mousemove', e => {
   if (!isDown) return;
-  e.preventDefault();
+  const dx = Math.abs(e.pageX - startX);
+  if (dx > 4) e.preventDefault(); // only prevent when actually dragging
   const now = Date.now();
   const dt  = now - lastT || 1;
   velX = (lastX - e.pageX) / dt * 16;
@@ -1226,6 +1233,9 @@ track.addEventListener('mouseleave', () => {
     rafId = requestAnimationFrame(applyMomentum);
   }
 });
+
+// ── Touch: let native scroll handle it, just track for arrow state ────────────
+track.addEventListener('touchstart', () => cancelMomentum(), {passive:true});
 
 // ─── WORK NAV ARROWS ─────────────────────────────────
 const prevBtn = document.getElementById('workPrev');
