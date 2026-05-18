@@ -72,17 +72,20 @@ nav.hero-mode.scrolled .nav-cta{background:var(--ink);color:var(--cream);border-
   height:100vh;
   overflow:hidden;
   background:#0a0a0a;
+  isolation:isolate;
 }
 
 /* Carousel slides */
 .carousel-track{
   position:absolute;inset:0;
   display:flex;
+  pointer-events:none;
   transition:opacity 0.1s;
 }
 .carousel-slide{
   position:absolute;inset:0;
   opacity:0;
+  pointer-events:none;
   transition:opacity 1.2s cubic-bezier(0.4,0,0.2,1);
 }
 .carousel-slide.active{opacity:1;}
@@ -106,6 +109,7 @@ nav.hero-mode.scrolled .nav-cta{background:var(--ink);color:var(--cream);border-
 /* Gradient overlay — bottom fade for legibility */
 .hero-overlay{
   position:absolute;inset:0;z-index:2;
+  pointer-events:none;
   background:
     linear-gradient(to bottom,
       rgba(0,0,0,0.25) 0%,
