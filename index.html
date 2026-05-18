@@ -623,10 +623,22 @@ footer{
 }
 @media(max-width:768px){
   .nav-links{display:none;}
-  .work-track{cursor:default;touch-action:pan-x;}
-  .case-card{cursor:pointer;}
-
-  .case-card,.case-card:first-child{width:320px;}
+  /* Work section — stacked full width on mobile */
+  .work-scroll-wrap{margin:0;padding:0;overflow:visible;}
+  .work-scroll-wrap::after{display:none;}
+  .work-track{
+    flex-direction:column;
+    overflow:visible;
+    scroll-snap-type:none;
+    cursor:default;
+    gap:2px;
+  }
+  .case-card,
+  .case-card:first-child{
+    width:100%;
+    cursor:pointer;
+  }
+  .work-nav{display:none;}
   .approach-grid{grid-template-columns:1fr;}
   .contact-strip{flex-direction:column;align-items:flex-start;}
   .business-card{width:280px;}
