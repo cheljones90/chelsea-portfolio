@@ -1289,5 +1289,55 @@ const io = new IntersectionObserver(entries => {
 }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 </script>
+
+<script>
+// ── Android tap fix ───────────────────────────────────
+// Explicitly handle touchend on all links to bypass
+// any element interception issues on Android Chrome
+(function() {
+  var touchStartY = 0;
+  var touchStartX = 0;
+
+  document.addEventListener('touchstart', function(e) {
+    touchStartY = e.touches[0].clientY;
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
+  document.addEventListener('touchend', function(e) {
+    var dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+    var dx = Math.abs(e.changedTouches[0].clientX - touchStartX);
+
+    // Only treat as a tap if finger barely moved (not a scroll)
+    if (dy > 10 || dx > 10) return;
+
+    // Find the closest <a> ancestor of the tapped element
+    var el = e.target;
+    var link = null;
+    while (el && el !== document.body) {
+      if (el.tagName === 'A' && el.href) {
+        link = el;
+        break;
+      }
+      el = el.parentElement;
+    }
+
+    if (link) {
+      e.preventDefault();
+      var href = link.getAttribute('href');
+      if (href.startsWith('#')) {
+        // Anchor scroll
+        var target = document.querySelector(href);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      } else if (href.startsWith('http') && !href.includes(window.location.hostname)) {
+        // External link
+        window.open(href, link.target || '_self');
+      } else {
+        // Internal navigation
+        window.location.href = href;
+      }
+    }
+  }, { passive: false });
+})();
+</script>
 </body>
 </html>
