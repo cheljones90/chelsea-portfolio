@@ -1,0 +1,12 @@
+{
+  "name": "chelsea-portfolio",
+  "version": "1.0.0",
+  "description": "Chelsea Jones Portfolio - Lead Product Designer",
+  "private": true,
+  "scripts": {
+    "test": "echo \"No tests configured\""
+  },
+  "dependencies": {
+    "@vercel/speed-insights": "^1.0.14"
+  }
+}
